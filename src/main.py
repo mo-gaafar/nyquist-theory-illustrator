@@ -20,7 +20,7 @@ class MainWindow(QtWidgets.QMainWindow):
         ''' Main window constructor'''
         
         super(MainWindow, self).__init__(*args, **kwargs)
-        uic.loadUi('mainwindow.ui', self)
+        uic.loadUi('MainWindow.ui', self)
         # set the title and icon
         self.setWindowIcon(QtGui.QIcon('icon.png'))
         self.setWindowTitle("Nyquist Theory Illustrator")
