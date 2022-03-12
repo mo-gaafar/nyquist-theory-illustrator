@@ -1,6 +1,6 @@
 # converts file path to SampledSignal object
 from classes import SampledSignal
-import wfdb
+# import wfdb
 
 
 def open_file(path):

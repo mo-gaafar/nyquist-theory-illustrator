@@ -7,7 +7,7 @@ import classes
 
 def init_connectors(self):
     # Browse button example
-    self.BrowseButton = self.findChild(QPushButton, "BrowseButton")
-    self.BrowseButton.clicked.connect(self.Browse)
+    # self.BrowseButton = self.findChild(QPushButton, "BrowseButton")
+    # self.BrowseButton.clicked.connect(self.Browse)
 
     return
