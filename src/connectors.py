@@ -6,6 +6,7 @@ import classes
 
 
 def init_connectors(self):
+    '''Initializes all event connectors and triggers'''
     # Browse button example
     # self.BrowseButton = self.findChild(QPushButton, "BrowseButton")
     # self.BrowseButton.clicked.connect(self.Browse)

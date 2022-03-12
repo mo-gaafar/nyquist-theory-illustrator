@@ -14,7 +14,11 @@ DebugMode = True
 
 
 class MainWindow(QtWidgets.QMainWindow):
+    ''' This is the PyQt5 GUI Main Window'''
+
     def __init__(self, *args, **kwargs):
+        ''' Main window constructor'''
+        
         super(MainWindow, self).__init__(*args, **kwargs)
         uic.loadUi('mainwindow.ui', self)
         # set the title and icon

@@ -1,12 +1,21 @@
 
 class Sinusoid():
-    def __init__(self, magnitude=1, phaseshift=0, frequency=1):
+    ''' One sinusoid function object'''
+    def __init__(self, magnitude=1, phaseshift=0, frequency=1, sin_or_cos = 'sin'):
         self.magnitude = magnitude
         self.phaseshift = phaseshift  # in radians
         self.frequency = frequency
+        self.sin_or_cos = sin_or_cos
+
+        # self.np_object = self.generate_np_object()
+
+    def generate_np_object(self):
+        '''Should create a np sinusiod based on the input parameters'''
+        return
 
 
 class SampledSignal():
+    '''An object containing sample points array'''
     def __init__(self, sampling_frequency=1, magnitude_array=[]):
         self.sampling_frequency = sampling_frequency
         self.magnitude_array = magnitude_array
