@@ -18,17 +18,19 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self, *args, **kwargs):
         ''' Main window constructor'''
-        
+
         super(MainWindow, self).__init__(*args, **kwargs)
         uic.loadUi('MainWindow.ui', self)
+
         # set the title and icon
-        self.setWindowIcon(QtGui.QIcon('icon.png'))
+        self.setWindowIcon(QtGui.QIcon('./data/icons/icon.png'))
         self.setWindowTitle("Nyquist Theory Illustrator")
 
         connectors.init_connectors(self)
 
 
 def main():
+
     app = QtWidgets.QApplication(sys.argv)
     main = MainWindow()
     main.show()
