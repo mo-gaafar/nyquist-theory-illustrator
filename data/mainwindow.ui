@@ -56,7 +56,7 @@ background-color: rgb(20, 29, 38);</string>
             <widget class="QWidget" name="composerTab">
               <attribute name="icon">
                 <iconset>
-                  <normaloff>./data/icons/Calculator-256.png</normaloff>./data/icons/Calculator-256.png</iconset>
+                  <normaloff>./icons/Calculator-256.png</normaloff>./icons/Calculator-256.png</iconset>
               </attribute>
               <attribute name="title">
                 <string>Composer</string>
@@ -113,7 +113,7 @@ color: rgb(255, 255, 255);</string>
                                           </property>
                                           <property name="icon">
                                             <iconset>
-                                              <normaloff>./data/icons/Check-256.png</normaloff>./data/icons/Check-256.png</iconset>
+                                              <normaloff>./icons/Check-256.png</normaloff>./icons/Check-256.png</iconset>
                                           </property>
                                           <property name="flat">
                                             <bool>true</bool>
@@ -127,7 +127,7 @@ color: rgb(255, 255, 255);</string>
                                           </property>
                                           <property name="icon">
                                             <iconset>
-                                              <normaloff>./data/icons/Data-Erase-256.png</normaloff>./data/icons/Data-Erase-256.png</iconset>
+                                              <normaloff>./icons/Data-Erase-256.png</normaloff>./icons/Data-Erase-256.png</iconset>
                                           </property>
                                           <property name="flat">
                                             <bool>true</bool>
@@ -300,7 +300,7 @@ selection-background-color: rgb(19, 28, 38);</string>
                                             </property>
                                             <property name="icon">
                                               <iconset>
-                                                <normaloff>./data/icons/Check-256.png</normaloff>./data/icons/Check-256.png</iconset>
+                                                <normaloff>./icons/Check-256.png</normaloff>./icons/Check-256.png</iconset>
                                             </property>
                                             <property name="flat">
                                               <bool>true</bool>
@@ -314,7 +314,7 @@ selection-background-color: rgb(19, 28, 38);</string>
                                             </property>
                                             <property name="icon">
                                               <iconset>
-                                                <normaloff>./data/icons/Garbage-Closed-256.png</normaloff>./data/icons/Garbage-Closed-256.png</iconset>
+                                                <normaloff>./icons/Garbage-Closed-256.png</normaloff>./icons/Garbage-Closed-256.png</iconset>
                                             </property>
                                             <property name="flat">
                                               <bool>true</bool>
@@ -545,7 +545,7 @@ selection-background-color: rgb(19, 28, 38);</string>
             <widget class="QWidget" name="viewerTab">
               <attribute name="icon">
                 <iconset>
-                  <normaloff>./data/icons/Real-Time-256.png</normaloff>./data/icons/Real-Time-256.png</iconset>
+                  <normaloff>./icons/Real-Time-256.png</normaloff>./icons/Real-Time-256.png</iconset>
               </attribute>
               <attribute name="title">
                 <string>Viewer</string>
@@ -622,7 +622,7 @@ color: rgb(255, 255, 255);</string>
                               </property>
                               <property name="icon">
                                 <iconset>
-                                  <normaloff>./data/icons/Data-Split-258.png</normaloff>./data/icons/Data-Split-258.png</iconset>
+                                  <normaloff>./icons/Data-Split-258.png</normaloff>./icons/Data-Split-258.png</iconset>
                               </property>
                               <property name="iconSize">
                                 <size>
@@ -736,7 +736,7 @@ color: rgb(255, 255, 255);</string>
                               </property>
                               <property name="icon">
                                 <iconset>
-                                  <normaloff>./data/icons/Data-Erase-256.png</normaloff>./data/icons/Data-Erase-256.png</iconset>
+                                  <normaloff>./icons/Data-Erase-256.png</normaloff>./icons/Data-Erase-256.png</iconset>
                               </property>
                               <property name="flat">
                                 <bool>true</bool>
@@ -810,7 +810,7 @@ color: rgb(255, 255, 255);</string>
     <action name="actionOpen">
       <property name="icon">
         <iconset>
-          <normaloff>./data/icons/Open-256.png</normaloff>./data/icons/Open-256.png</iconset>
+          <normaloff>./icons/Open-256.png</normaloff>./icons/Open-256.png</iconset>
       </property>
       <property name="text">
         <string>Open</string>
