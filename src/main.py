@@ -1,7 +1,9 @@
 # please for the love of god https://namingconvention.org/python/ use the pythonic naming convention here
-from PyQt5 import QtWidgets, uic
-from PyQt5 import QtGui, QtCore, QtWidgets
+
+from PyQt5 import QtGui, QtCore, QtWidgets, uic
+from pyqtgraph import PlotWidget
 import sys
+import numpy as np
 
 from classes import *
 import interface
@@ -30,9 +32,22 @@ class MainWindow(QtWidgets.QMainWindow):
         util.printDebug(
             "this should be our print function (DONT USE THE STANDARD print() )")
 
-        # initialize arrays
+        # initialize arrays and variables
         self.sinusoid_creator_array = [Sinusoid()]
-        self.interpolated_signal_array = [SampledSignal()]
+        self.interpolated_signal = SampledSignal()
+
+        # initialize graph objects array/dict
+        self.plotter_window_dict = {"Primary": PlotterWindow(self.primaryPlot.plot()),
+                                    "Sinusoid": PlotterWindow(self.sinusoidalSignal.plot()),
+                                    "Secondary": PlotterWindow(self.reconstructedPlot.plot()),
+                                    "Summed": PlotterWindow(self.sinusoidalSignal.plot())
+                                    }
+
+        # testing graph objects THIS IS AN EXAMPLE :)
+        xAxis = np.linspace(0, np.pi * 2, 200)
+        yAxis = np.sin(xAxis)
+        self.plotter_window_dict["Sinusoid"].plot_reference.setData(
+            xAxis, yAxis)
 
 
 def main():

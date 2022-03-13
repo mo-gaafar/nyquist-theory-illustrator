@@ -31,12 +31,13 @@ class SampledSignal():
 class PlotterWindow():
     '''Abstraction of plotter window properties'''
 
-    def __init__(self, x_start, x_end, y_start, y_end):
+    def __init__(self, plot_reference,  x_start=0, x_end = 1, y_start = -1, y_end = 1):
+        self.plot_reference = plot_reference
 
         self.x_range_tuple = (x_start, x_end)
         self.y_range_tuple = (y_start, y_end)
 
     def update_plot(self, PlotWindow):
         "Updates range of passed plot instance"
-        PlotWindow.setXRange(xMin=self.x_range_tuple[0], xMax=self.x_range_tuple[1],
-                             yMin=self.y_range_tuple[0], yMax=self.y_range_tuple[1])
+        self.plot_reference.setXRange(xMin=self.x_range_tuple[0], xMax=self.x_range_tuple[1],
+                                      yMin=self.y_range_tuple[0], yMax=self.y_range_tuple[1])
