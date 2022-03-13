@@ -1,7 +1,8 @@
 class Sinusoid():
     ''' One sinusoid function object'''
 
-    def __init__(self, magnitude=1, phaseshift=0, frequency=1, sin_or_cos='sin'):
+    def __init__(self, index=0, magnitude=1, phaseshift=0, frequency=1, sin_or_cos='sin'):
+        self.index = index
         self.magnitude = magnitude
         self.phaseshift = phaseshift  # in radians
         self.frequency = frequency

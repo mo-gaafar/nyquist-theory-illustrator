@@ -5,6 +5,7 @@ from PyQt5.QtGui import *
 import main
 import classes
 import utility as util
+import composer
 # interface globals
 CreatorSelectedIndex = 0
 ''' Sould be connected to the combobox on change'''
@@ -22,7 +23,7 @@ def init_connectors(self):
 
     self.addSineButton = self.findChild(QPushButton, "addSineButton")
     self.addSineButton.clicked.connect(
-        lambda: util.printDebug("not connected"))
+        lambda: composer.addSinusoidal())
 
     self.deleteSineButton = self.findChild(QPushButton, "deleteSineButton")
     self.deleteSineButton.clicked.connect(
@@ -32,23 +33,29 @@ def init_connectors(self):
     # Frequency
     self.frequencySlider = self.findChild(QSlider, "frequencySlider")
     self.frequencySlider.valueChanged.connect(
-        lambda: util.printDebug("not connected"))
+        lambda: composer.setFrequency(self, Input = self.frequencySlider.value()))
 
     self.frequencyLCD = self.findChild(QLCDNumber, "frequencyLCD")
+    self.frequencySlider.valueChanged.connect(
+        lambda: self.frequencyLCD.display(self.frequencySlider.value()))
 
     # Magnitude
     self.magnitudeSlider = self.findChild(QSlider, "magnitudeSlider")
     self.magnitudeSlider.valueChanged.connect(
-        lambda: util.printDebug("not connected"))
+        lambda: composer.setMagnitude(self, Input = self.magnitudeSlider.value()))
 
     self.magnitudeLCD = self.findChild(QLCDNumber, "magnitudeLCD")
+    self.magnitudeSlider.valueChanged.connect(
+        lambda: self.magnitudeLCD.display(self.magnitudeSlider.value()))
 
     # Phase
     self.phaseSlider = self.findChild(QSlider, "phaseSlider")
     self.phaseSlider.valueChanged.connect(
-        lambda: util.printDebug("not connected"))
+        lambda: composer.setPhaseshift(self, Input = self.phaseSlider.value()))
 
     self.phaseLCD = self.findChild(QLCDNumber, "phaseLCD")
+    self.phaseSlider.valueChanged.connect(
+        lambda: self.phaseLCD.display(self.phaseSlider.value()))
 
     # Confirm move to viewer
     self.confirmButton = self.findChild(QPushButton, "confirmButton")
@@ -58,7 +65,7 @@ def init_connectors(self):
     # Created signals combobox
     self.signalsMenu = self.findChild(QComboBox, "signalsMenu")
     self.signalsMenu.currentIndexChanged.connect(
-        lambda: util.printDebug("not connected"))
+        lambda: SetSelectedSignal(self, self.signalsMenu.currentIndex()))
 
     '''Viewer Tab'''
 

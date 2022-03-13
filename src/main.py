@@ -34,6 +34,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # initialize arrays and variables
         self.sinusoid_creator_array = [Sinusoid()]
+        self.sinusoid_index = 0
         self.interpolated_signal = SampledSignal()
 
         # initialize graph objects array/dict
@@ -44,10 +45,10 @@ class MainWindow(QtWidgets.QMainWindow):
                                     }
 
         # testing graph objects THIS IS AN EXAMPLE :)
-        xAxis = np.linspace(0, np.pi * 2, 200)
-        yAxis = np.sin(xAxis)
-        self.plotter_window_dict["Sinusoid"].plot_reference.setData(
-            xAxis, yAxis)
+        #xAxis = np.linspace(0, np.pi * 2, 200)
+        #yAxis = np.sin(xAxis)
+        #self.plotter_window_dict["Sinusoid"].plot_reference.setData(
+        #    xAxis, yAxis)
 
 
 def main():
