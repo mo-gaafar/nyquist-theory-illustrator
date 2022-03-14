@@ -23,11 +23,14 @@ def init_connectors(self):
 
     self.addSineButton = self.findChild(QPushButton, "addSineButton")
     self.addSineButton.clicked.connect(
-        lambda: composer.addSinusoidal())
+        lambda: composer.addSinusoidal(self))
+    self.addSineButton.clicked.connect(
+        lambda: composer.plotSinusoidal(self))
+    
 
     self.deleteSineButton = self.findChild(QPushButton, "deleteSineButton")
     self.deleteSineButton.clicked.connect(
-        lambda: util.printDebug("not connected"))
+        lambda: composer.deleteSinusoidal(self))
 
     # Creator Sliders and LCD
     # Frequency
@@ -65,7 +68,13 @@ def init_connectors(self):
     # Created signals combobox
     self.signalsMenu = self.findChild(QComboBox, "signalsMenu")
     self.signalsMenu.currentIndexChanged.connect(
-        lambda: SetSelectedSignal(self, self.signalsMenu.currentIndex()))
+        lambda: composer.setSelectedSignal(self, self.signalsMenu.currentIndex()))
+    self.signalsMenu.currentIndexChanged.connect(
+        lambda: self.frequencySlider.setValue(self.sinusoid_creator_array[self.sinusoid_index].frequency))
+    self.signalsMenu.currentIndexChanged.connect(
+        lambda: self.magnitudeSlider.setValue(self.sinusoid_creator_array[self.sinusoid_index].magnitude))
+    self.signalsMenu.currentIndexChanged.connect(
+        lambda: self.phaseSlider.setValue(self.sinusoid_creator_array[self.sinusoid_index].phaseshift))
 
     '''Viewer Tab'''
 

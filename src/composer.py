@@ -26,14 +26,22 @@ def plotSinusoidal(self):
     freq = self.sinusoid_creator_array[self.sinusoid_index].frequency
     mag = self.sinusoid_creator_array[self.sinusoid_index].magnitude
     phase = self.sinusoid_creator_array[self.sinusoid_index].phaseshift
-    xAxis = np.linspace(0, np.pi * freq, 200)
-    yAxis = mag * np.sin(xAxis + phase)
-    self.plotter_window_dict["Sinusoid"].plot_reference.setData(xAxis, yAxis)
+    xAxis = np.linspace(0, np.pi * 2, 200)
+    self.sinusoid_creator_array[self.sinusoid_index].yAxis = mag * np.sin((xAxis * freq) + phase)
+    self.plotter_window_dict["Sinusoid"].plot_reference.setData(xAxis, self.sinusoid_creator_array[self.sinusoid_index].yAxis)
     #change axes and sliders to rad
+
+
+def clearSinusoidal(self):
+    xAxis = np.linspace(0, np.pi * 0, 200)
+    yAxis = np.sin(xAxis)
+    self.plotter_window_dict["Sinusoid"].plot_reference.setData(xAxis, yAxis)
 
 
 def setSelectedSignal(self, Input):
     self.sinusoid_index = Input
+    plotSinusoidal(self)
+    print(self.sinusoid_creator_array[self.sinusoid_index]._is_added)
 
 
 def setFrequency(self, Input):
@@ -51,6 +59,28 @@ def setPhaseshift(self, Input):
     plotSinusoidal(self)
 
 
-def addSinusoidal():
-    np.append(self.sinusoid_creator_array, Sinusoid())
-    #add combobox item
+def addSinusoidal(self):
+    if self.sinusoid_creator_array[self.sinusoid_index]._is_added == False:
+        self.sinusoid_creator_array[self.sinusoid_index]._is_added = True
+        self.sinusoid_creator_array.append(classes.Sinusoid())
+        self.sinusoid_number += 1
+        self.signalsMenu.addItem("Signal " + str(self.sinusoid_number))
+        self.signalsMenu.setCurrentIndex(len(self.sinusoid_creator_array) - 1)
+    sumSinusoids(self)
+    print(len(self.sinusoid_creator_array))
+
+
+def deleteSinusoidal(self):
+    self.sinusoid_creator_array.pop(self.sinusoid_index)
+    self.signalsMenu.removeItem(self.sinusoid_index)
+
+
+
+def sumSinusoids(self):
+    yAxis_sum = self.sinusoid_creator_array[0].yAxis
+    for item in self.sinusoid_creator_array:
+        yAxis_sum += item.yAxis
+    yAxis_sum -= self.sinusoid_creator_array[0].yAxis
+    xAxis = np.linspace(0, np.pi * 2, 200)
+    self.plotter_window_dict["Summed"].plot_reference.setData(xAxis, yAxis_sum)
+    #bayez

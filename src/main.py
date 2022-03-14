@@ -28,20 +28,22 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon('./data/icons/icon.png'))
         self.setWindowTitle("Nyquist Theory Illustrator")
 
+       # initialize arrays and variables
+        self.sinusoid_creator_array = [Sinusoid()]
+        self.sinusoid_index = 0
+        self.sinusoid_number = 1
+        self.interpolated_signal = SampledSignal()
+
         interface.init_connectors(self)
         util.printDebug(
             "this should be our print function (DONT USE THE STANDARD print() )")
 
-        # initialize arrays and variables
-        self.sinusoid_creator_array = [Sinusoid()]
-        self.sinusoid_index = 0
-        self.interpolated_signal = SampledSignal()
 
         # initialize graph objects array/dict
         self.plotter_window_dict = {"Primary": PlotterWindow(self.primaryPlot.plot()),
                                     "Sinusoid": PlotterWindow(self.sinusoidalSignal.plot()),
                                     "Secondary": PlotterWindow(self.reconstructedPlot.plot()),
-                                    "Summed": PlotterWindow(self.sinusoidalSignal.plot())
+                                    "Summed": PlotterWindow(self.summedSignal.plot())
                                     }
 
         # testing graph objects THIS IS AN EXAMPLE :)

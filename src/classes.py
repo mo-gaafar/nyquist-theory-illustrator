@@ -1,12 +1,15 @@
 class Sinusoid():
     ''' One sinusoid function object'''
 
-    def __init__(self, index=0, magnitude=1, phaseshift=0, frequency=1, sin_or_cos='sin'):
+    def __init__(self, index=0, magnitude=1, phaseshift=0, frequency=1, sin_or_cos='sin', _is_added = False):
         self.index = index
         self.magnitude = magnitude
         self.phaseshift = phaseshift  # in radians
         self.frequency = frequency
         self.sin_or_cos = sin_or_cos
+        self._is_added = _is_added
+        self.xAxis = []
+        self.yAxis = []
 
         # self.np_object = self.generate_np_object()
 
