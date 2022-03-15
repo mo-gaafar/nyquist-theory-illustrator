@@ -33,11 +33,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.sinusoid_index = 0
         self.sinusoid_number = 1
         self.interpolated_signal = SampledSignal()
+        # self.summed_signal = SummedSinusoid()
 
         interface.init_connectors(self)
         util.printDebug(
             "this should be our print function (DONT USE THE STANDARD print() )")
-
 
         # initialize graph objects array/dict
         self.plotter_window_dict = {"Primary": PlotterWindow(self.primaryPlot.plot()),
@@ -49,7 +49,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # testing graph objects THIS IS AN EXAMPLE :)
         #xAxis = np.linspace(0, np.pi * 2, 200)
         #yAxis = np.sin(xAxis)
-        #self.plotter_window_dict["Sinusoid"].plot_reference.setData(
+        # self.plotter_window_dict["Sinusoid"].plot_reference.setData(
         #    xAxis, yAxis)
 
 

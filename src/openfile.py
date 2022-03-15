@@ -3,7 +3,7 @@ from classes import SampledSignal
 import wfdb
 
 
-def open_file(path):
+def open_file(self, path):
     # called by a function in main.py
     # gets fsampling
     # gets magnitude array
@@ -11,3 +11,7 @@ def open_file(path):
     # can deal with csv, .dat etc..
     # maximum of 1000 points? idk yet
     return SampledSignal('''pass arguments into the constructor''')
+
+
+def check_data_type():
+    return

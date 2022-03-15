@@ -1,7 +1,7 @@
 class Sinusoid():
     ''' One sinusoid function object'''
 
-    def __init__(self, index=0, magnitude=1, phaseshift=0, frequency=1, sin_or_cos='sin', _is_added = False):
+    def __init__(self, index=0, magnitude=1, phaseshift=0, frequency=1, sin_or_cos='sin', _is_added=False):
         self.index = index
         self.magnitude = magnitude
         self.phaseshift = phaseshift  # in radians
@@ -12,10 +12,44 @@ class Sinusoid():
         self.yAxis = []
 
         # self.np_object = self.generate_np_object()
+    def __add__(self, sinusoid2):
+        ''' Operator overloading '''
+        return self.yAxis + sinusoid2.yAxis
+
+    def get_frequency(self):
+        return self.frequency
 
     def generate_np_object(self):
         '''Should create a np sinusiod based on the input parameters'''
         return
+
+
+class SummedSinusoid():
+    ''' Data object containing the small sinusoids and their magnitude sum'''
+
+    def __init__(self, sinusoid_array=[Sinusoid()]):
+        self.sinusoid_array = sinusoid_array
+        self.max_analog_frequency = 1
+        self.xAxis = []
+        self.yAxis = []
+        if len(sinusoid_array) > 1:
+            self.xAxis = sinusoid_array[0].xAxis  # TODO: think of a better way
+            yAxis_sum = sinusoid_array[0].yAxis
+
+            for index in range(len(self.sinusoid_array)):
+                if index != 0:
+                    yAxis_sum = yAxis_sum + self.sinusoid_array[index].yAxis
+            self.yAxis = yAxis_sum
+            self.max_analog_frequency = self._get_max_frequency()
+
+    def _get_max_frequency(self):
+        ''' written because I dont know how to get max of an array of object attributes '''
+        maxfrequency = -999
+        for item in self.sinusoid_array:
+            if item.frequency > maxfrequency:
+                maxfrequency = item.frequency
+
+        return maxfrequency
 
 
 class SampledSignal():
@@ -35,7 +69,7 @@ class SampledSignal():
 class PlotterWindow():
     '''Abstraction of plotter window properties'''
 
-    def __init__(self, plot_reference,  x_start=0, x_end = 1, y_start = -1, y_end = 1):
+    def __init__(self, plot_reference,  x_start=0, x_end=1, y_start=-1, y_end=1):
         self.plot_reference = plot_reference
 
         self.x_range_tuple = (x_start, x_end)

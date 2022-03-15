@@ -14,12 +14,13 @@ Leftmost graph
 2. if sinusoid confirmation or deletion button is clicked trigger the sine summing function
 3. and then update plot with the sine summing function's output array'''
 
+from matplotlib.axis import YAxis
 import numpy as np
 
 import classes
 import interface
 import main
-
+import utility as util
 
 
 def plotSinusoidal(self):
@@ -27,15 +28,18 @@ def plotSinusoidal(self):
     mag = self.sinusoid_creator_array[self.sinusoid_index].magnitude
     phase = self.sinusoid_creator_array[self.sinusoid_index].phaseshift
     xAxis = np.linspace(0, np.pi * 2, 200)
-    self.sinusoid_creator_array[self.sinusoid_index].yAxis = mag * np.sin((xAxis * freq) + phase)
-    self.plotter_window_dict["Sinusoid"].plot_reference.setData(xAxis, self.sinusoid_creator_array[self.sinusoid_index].yAxis)
-    #change axes and sliders to rad
+    self.sinusoid_creator_array[self.sinusoid_index].yAxis = mag * \
+        np.sin((xAxis * freq) + phase)
+    self.plotter_window_dict["Sinusoid"].plot_reference.setData(
+        xAxis, self.sinusoid_creator_array[self.sinusoid_index].yAxis)
+    # change axes and sliders to rad
 
 
 def clearSinusoidal(self):
     xAxis = np.linspace(0, np.pi * 0, 200)
     yAxis = np.sin(xAxis)
     self.plotter_window_dict["Sinusoid"].plot_reference.setData(xAxis, yAxis)
+    sumSinusoids(self)  # calls sum sinusoids again to update sum
 
 
 def setSelectedSignal(self, Input):
@@ -75,12 +79,14 @@ def deleteSinusoidal(self):
     self.signalsMenu.removeItem(self.sinusoid_index)
 
 
-
 def sumSinusoids(self):
-    yAxis_sum = self.sinusoid_creator_array[0].yAxis
-    for item in self.sinusoid_creator_array:
-        yAxis_sum += item.yAxis
-    yAxis_sum -= self.sinusoid_creator_array[0].yAxis
+
+    self.summed_signal = classes.SummedSinusoid(self.sinusoid_creator_array)
     xAxis = np.linspace(0, np.pi * 2, 200)
-    self.plotter_window_dict["Summed"].plot_reference.setData(xAxis, yAxis_sum)
-    #bayez
+    self.plotter_window_dict["Summed"].plot_reference.setData(
+        xAxis, self.summed_signal.yAxis)
+    util.printDebug("Max analog freq component: " +
+                    str(self.summed_signal.max_analog_frequency))
+    # TODO: it keeps automatically summing an extra 1hz default sine wave on confirm
+    # TODO: sum does not update on delete??
+    # TODO: program crashes when all the signal are deleted
