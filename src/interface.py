@@ -1,11 +1,13 @@
 from PyQt5 import QtGui, QtCore, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QSlider, QTextEdit, QFileDialog, QScrollBar, QComboBox, QCheckBox, QScrollBar, QLCDNumber, QLineEdit
+from PyQt5.QtWidgets import QMainWindow, QAction, QMenuBar, QMenu,  QApplication, QPushButton, QSlider, QTextEdit, QFileDialog, QScrollBar, QComboBox, QCheckBox, QScrollBar, QLCDNumber, QLineEdit
 from PyQt5.QtGui import *
 
 import main
 import classes
 import utility as util
 import composer
+import openfile
+
 # interface globals
 CreatorSelectedIndex = 0
 ''' Sould be connected to the combobox on change'''
@@ -13,6 +15,11 @@ CreatorSelectedIndex = 0
 
 def init_connectors(self):
     '''Initializes all event connectors and triggers'''
+
+    ''' Menu Bar'''
+    self.actionOpen = self.findChild(QAction, "actionOpen")
+    self.actionOpen.triggered.connect(
+        lambda: openfile.browse_window(self))
 
     ''' Composer Tab'''
 
@@ -26,7 +33,6 @@ def init_connectors(self):
         lambda: composer.addSinusoidal(self))
     self.addSineButton.clicked.connect(
         lambda: composer.plotSinusoidal(self))
-    
 
     self.deleteSineButton = self.findChild(QPushButton, "deleteSineButton")
     self.deleteSineButton.clicked.connect(
@@ -36,7 +42,7 @@ def init_connectors(self):
     # Frequency
     self.frequencySlider = self.findChild(QSlider, "frequencySlider")
     self.frequencySlider.valueChanged.connect(
-        lambda: composer.setFrequency(self, Input = self.frequencySlider.value()))
+        lambda: composer.setFrequency(self, Input=self.frequencySlider.value()))
 
     self.frequencyLCD = self.findChild(QLCDNumber, "frequencyLCD")
     self.frequencySlider.valueChanged.connect(
@@ -45,7 +51,7 @@ def init_connectors(self):
     # Magnitude
     self.magnitudeSlider = self.findChild(QSlider, "magnitudeSlider")
     self.magnitudeSlider.valueChanged.connect(
-        lambda: composer.setMagnitude(self, Input = self.magnitudeSlider.value()))
+        lambda: composer.setMagnitude(self, Input=self.magnitudeSlider.value()))
 
     self.magnitudeLCD = self.findChild(QLCDNumber, "magnitudeLCD")
     self.magnitudeSlider.valueChanged.connect(
@@ -54,7 +60,7 @@ def init_connectors(self):
     # Phase
     self.phaseSlider = self.findChild(QSlider, "phaseSlider")
     self.phaseSlider.valueChanged.connect(
-        lambda: composer.setPhaseshift(self, Input = self.phaseSlider.value()))
+        lambda: composer.setPhaseshift(self, Input=self.phaseSlider.value()))
 
     self.phaseLCD = self.findChild(QLCDNumber, "phaseLCD")
     self.phaseSlider.valueChanged.connect(

@@ -12,7 +12,8 @@ import openfile
 import viewer
 
 
-DebugMode = True
+DEBUG_MODE = True
+MAX_SAMPLES = 200
 
 
 class MainWindow(QtWidgets.QMainWindow):
