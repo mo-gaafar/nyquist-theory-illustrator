@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QFileDialog
 import wfdb
 import numpy as np
 import main
+import viewer
 
 
 def browse_window(self):
@@ -13,6 +14,7 @@ def browse_window(self):
     path = self.filename[0]
     util.printDebug("Selected path: " + path)
     open_file(self, path)
+    viewer.move_to_viewer(self, "browse")
 
 
 def open_file(self, path):

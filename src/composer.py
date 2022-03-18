@@ -85,6 +85,7 @@ def sumSinusoids(self):
     xAxis = np.linspace(0, np.pi * 2, 200)
     self.plotter_window_dict["Summed"].plot_reference.setData(
         xAxis, self.summed_signal.yAxis)
+  
     util.printDebug("Max analog freq component: " +
                     str(self.summed_signal.max_analog_frequency))
     # TODO: it keeps automatically summing an extra 1hz default sine wave on confirm

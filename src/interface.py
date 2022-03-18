@@ -7,7 +7,7 @@ import classes
 import utility as util
 import composer
 import openfile
-
+import viewer
 # interface globals
 CreatorSelectedIndex = 0
 ''' Sould be connected to the combobox on change'''
@@ -69,7 +69,8 @@ def init_connectors(self):
     # Confirm move to viewer
     self.confirmButton = self.findChild(QPushButton, "confirmButton")
     self.confirmButton.clicked.connect(
-        lambda: util.printDebug("not connected"))
+        lambda: viewer.move_to_viewer(self, "composer"))
+    
 
     # Created signals combobox
     self.signalsMenu = self.findChild(QComboBox, "signalsMenu")
@@ -86,7 +87,7 @@ def init_connectors(self):
 
     self.clearViewerButton = self.findChild(QPushButton, "clearViewerButton")
     self.clearViewerButton.clicked.connect(
-        lambda: util.printDebug("not connected"))
+        lambda: viewer.delete_primary_secondary(self))
 
     self.splitButton = self.findChild(QPushButton, "splitButton")
     self.splitButton.clicked.connect(lambda: util.printDebug("not connected"))
