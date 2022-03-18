@@ -11,7 +11,7 @@ import openfile
 import main
 from scipy import signal
 from PyQt5 import QtWidgets
-
+import pyqtgraph as pg
 def move_to_viewer(self, Input):
     print("move")
 
@@ -55,7 +55,8 @@ def change_sampling_rate (self, freqvalue):
     self.resampled_time = np.linspace(0, self.viewer_original_signal.time[len(self.viewer_original_signal.time)-1], freqvalue, endpoint=False)
 
     self.new=sinc_interp(self.resampled_magnitude,self.resampled_time, self.viewer_original_signal.time)
-
+    self.pen = pg.mkPen(color=(255, 0, 0), width=0) 
+    self.plotter_window_dict["Primary2"].plot_reference.setData(self.resampled_time,self.resampled_magnitude,symbol='o',pen=self.pen)
     self.plotter_window_dict["Primary"].plot_reference.setData(self.viewer_original_signal.time,self.new)
     
    

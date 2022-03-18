@@ -46,7 +46,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plotter_window_dict = {"Primary": PlotterWindow(self.primaryPlot.plot()),
                                     "Sinusoid": PlotterWindow(self.sinusoidalSignal.plot()),
                                     "Secondary": PlotterWindow(self.reconstructedPlot.plot()),
-                                    "Summed": PlotterWindow(self.summedSignal.plot())
+                                    "Summed": PlotterWindow(self.summedSignal.plot()),
+                                    "Primary2": PlotterWindow(self.primaryPlot.plot())
                                     }
 
         # testing graph objects THIS IS AN EXAMPLE :)
