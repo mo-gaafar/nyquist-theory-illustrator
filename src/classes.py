@@ -1,3 +1,7 @@
+import numpy as np
+
+
+
 class Sinusoid():
     ''' One sinusoid function object'''
 
@@ -8,8 +12,8 @@ class Sinusoid():
         self.frequency = frequency
         self.sin_or_cos = sin_or_cos
         self._is_added = _is_added
-        self.xAxis = []
-        self.yAxis = []
+        self.xAxis = np.linspace(0, np.pi * 2, 200)
+        self.yAxis = self.magnitude * np.sin((self.xAxis * self.frequency) + self.phaseshift)
 
         # self.np_object = self.generate_np_object()
     def __add__(self, sinusoid2):
