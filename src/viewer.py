@@ -9,6 +9,7 @@ import utility as util
 from classes import *  
 import openfile
 import main
+from scipy import signal
 from PyQt5 import QtWidgets
 
 def move_to_viewer(self, Input):
@@ -23,10 +24,13 @@ def move_to_viewer(self, Input):
             self, 'NO SIGNAL ', 'You have to plot a signal first')
         else:   
             self.viewer_original_signal = Signal(self.summed_signal.yAxis,self.summed_signal.xAxis,self.summed_signal.max_analog_frequency)
-
+          
     elif Input == "browse":
         self.viewer_original_signal = Signal(self.browsed_signal.magnitude_array,self.browsed_signal.time_array,self.browsed_signal.max_analog_frequency )
         print("browse elif")
+
+    self.samplingSlider.setMaximum(3*(self.viewer_original_signal.max_analog_frequency))
+
     self.plotter_window_dict["Primary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
     self.plotter_window_dict["Secondary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
     
@@ -43,9 +47,23 @@ def move_to_viewer(self, Input):
     #TODO change the tab to viewer
         # TODO  if not make a dialogue box 
 
-def change_sampling_rate (self, Input):
+def change_sampling_rate (self, freqvalue):
+
+    print('here')
+    print(freqvalue)
+    self.resampled_magnitude = signal.resample(x=self.viewer_original_signal.magnitude,num=freqvalue)
+    self.resampled_time = np.linspace(0, self.viewer_original_signal.time[len(self.viewer_original_signal.time)-1], freqvalue, endpoint=False)
+
+    self.new=sinc_interp(self.resampled_magnitude,self.resampled_time, self.viewer_original_signal.time)
+
+    self.plotter_window_dict["Primary"].plot_reference.setData(self.viewer_original_signal.time,self.new)
+    
+   
 
 
+
+
+    
     # add points based on sampling rate 
     # plot the points
     # connect them by using interpolation 
@@ -53,6 +71,26 @@ def change_sampling_rate (self, Input):
     # 3 Fmax
 
     return 
+def sinc_interp(x, s, u):
+    
+    #Interpolates x, sampled at "s" instants
+    #Output y is sampled at "u" instants ("u" for "upsampled")
+    
+    print('BOO')
+    print(len(x))
+    print(len(s))
+    
+  
+    
+    if len(x) != len(s):
+        print('not same')
+    
+    # Find the period    
+    T = s[1] - s[0]
+    
+    sincM = np.tile(u, (len(s), 1)) - np.tile(s[:, np.newaxis], (1, len(u)))
+    y = np.dot(x, np.sinc(sincM/T))
+    return y
 
 def delete_primary_secondary(self):
     self.plotter_window_dict["Primary"].plot_reference.setData(xAxis=0,yAxis=0)

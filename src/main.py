@@ -10,7 +10,7 @@ import interface
 import utility as util
 import openfile
 import viewer
-
+from scipy import signal
 
 DEBUG_MODE = True
 MAX_SAMPLES = 200

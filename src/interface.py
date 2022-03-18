@@ -94,7 +94,7 @@ def init_connectors(self):
 
     # Sampling frequency control
     self.samplingSlider = self.findChild(QSlider, "samplingSlider")
-    self.samplingSlider.valueChanged.connect(
-        lambda: viewer.change_sampling_rate(self, "freqrate"))
+    self.samplingSlider.sliderReleased.connect(
+        lambda: viewer.change_sampling_rate(self,self.samplingSlider.value()))
 
     self.samplingLCD = self.findChild(QLCDNumber, "samplingLCD")
