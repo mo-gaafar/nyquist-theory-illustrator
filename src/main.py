@@ -10,9 +10,12 @@ import interface
 import utility as util
 import openfile
 import viewer
+from scipy import signal
+import composer
 
 
-DebugMode = True
+DEBUG_MODE = True
+MAX_SAMPLES = 200
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -28,26 +31,34 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon('./data/icons/icon.png'))
         self.setWindowTitle("Nyquist Theory Illustrator")
 
+       # initialize arrays and variables
+        self.sinusoid_creator_array = []
+        self.sinusoid_index = 0
+        self.sinusoid_number = 1
+        self.browsed_signal = SampledSignal()
+        self.summed_signal = SummedSinusoid()
+        self.viewer_orginal_signal = Signal()
+        self.interpolated_signal = Signal()
+
         interface.init_connectors(self)
         util.printDebug(
             "this should be our print function (DONT USE THE STANDARD print() )")
-
-        # initialize arrays and variables
-        self.sinusoid_creator_array = [Sinusoid()]
-        self.interpolated_signal = SampledSignal()
 
         # initialize graph objects array/dict
         self.plotter_window_dict = {"Primary": PlotterWindow(self.primaryPlot.plot()),
                                     "Sinusoid": PlotterWindow(self.sinusoidalSignal.plot()),
                                     "Secondary": PlotterWindow(self.reconstructedPlot.plot()),
-                                    "Summed": PlotterWindow(self.sinusoidalSignal.plot())
+                                    "Summed": PlotterWindow(self.summedSignal.plot()),
+                                    "Primary2": PlotterWindow(self.primaryPlot.plot())
                                     }
 
+        composer.plotSinusoidal(self)
+
         # testing graph objects THIS IS AN EXAMPLE :)
-        xAxis = np.linspace(0, np.pi * 2, 200)
-        yAxis = np.sin(xAxis)
-        self.plotter_window_dict["Sinusoid"].plot_reference.setData(
-            xAxis, yAxis)
+        #xAxis = np.linspace(0, np.pi * 2, 200)
+        #yAxis = np.sin(xAxis)
+        # self.plotter_window_dict["Sinusoid"].plot_reference.setData(
+        #    xAxis, yAxis)
 
 
 def main():
