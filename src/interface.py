@@ -1,5 +1,5 @@
 from PyQt5 import QtGui, QtCore, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QAction, QMenuBar, QMenu,  QApplication, QPushButton, QSlider, QTextEdit, QFileDialog, QScrollBar, QComboBox, QCheckBox, QScrollBar, QLCDNumber, QLineEdit
+from PyQt5.QtWidgets import QMainWindow, QTabWidget, QAction, QMenuBar, QMenu,  QApplication, QPushButton, QSlider, QTextEdit, QFileDialog, QScrollBar, QComboBox, QCheckBox, QScrollBar, QLCDNumber, QLineEdit
 from PyQt5.QtGui import *
 
 import main
@@ -21,20 +21,23 @@ def init_connectors(self):
     self.actionOpen.triggered.connect(
         lambda: openfile.browse_window(self))
 
+    self.WindowTabs = self.findChild(QTabWidget, "WindowTabs")
+
     ''' Composer Tab'''
 
     self.clearComposerButton = self.findChild(
         QPushButton, "clearComposerButton")
     self.clearComposerButton.clicked.connect(
-        lambda: util.printDebug("not connected"))
+        lambda: composer.clearComposer(self))
 
     self.addSineButton = self.findChild(QPushButton, "addSineButton")
     self.addSineButton.clicked.connect(
         lambda: composer.addSinusoidal(self))
-    self.addSineButton.clicked.connect(
-        lambda: composer.plotSinusoidal(self))
+    # self.addSineButton.clicked.connect(
+    #    lambda: composer.plotSinusoidal(self))
 
     self.deleteSineButton = self.findChild(QPushButton, "deleteSineButton")
+    self.deleteSineButton.hide()
     self.deleteSineButton.clicked.connect(
         lambda: composer.deleteSinusoidal(self))
 
@@ -42,7 +45,7 @@ def init_connectors(self):
     # Frequency
     self.frequencySlider = self.findChild(QSlider, "frequencySlider")
     self.frequencySlider.valueChanged.connect(
-        lambda: composer.setFrequency(self, Input=self.frequencySlider.value()))
+        lambda: composer.plotSinusoidal(self))
 
     self.frequencyLCD = self.findChild(QLCDNumber, "frequencyLCD")
     self.frequencySlider.valueChanged.connect(
@@ -51,7 +54,7 @@ def init_connectors(self):
     # Magnitude
     self.magnitudeSlider = self.findChild(QSlider, "magnitudeSlider")
     self.magnitudeSlider.valueChanged.connect(
-        lambda: composer.setMagnitude(self, Input=self.magnitudeSlider.value()))
+        lambda: composer.plotSinusoidal(self))
 
     self.magnitudeLCD = self.findChild(QLCDNumber, "magnitudeLCD")
     self.magnitudeSlider.valueChanged.connect(
@@ -60,7 +63,7 @@ def init_connectors(self):
     # Phase
     self.phaseSlider = self.findChild(QSlider, "phaseSlider")
     self.phaseSlider.valueChanged.connect(
-        lambda: composer.setPhaseshift(self, Input=self.phaseSlider.value()))
+        lambda: composer.plotSinusoidal(self))
 
     self.phaseLCD = self.findChild(QLCDNumber, "phaseLCD")
     self.phaseSlider.valueChanged.connect(
@@ -70,18 +73,11 @@ def init_connectors(self):
     self.confirmButton = self.findChild(QPushButton, "confirmButton")
     self.confirmButton.clicked.connect(
         lambda: viewer.move_to_viewer(self, "composer"))
-    
 
     # Created signals combobox
     self.signalsMenu = self.findChild(QComboBox, "signalsMenu")
     self.signalsMenu.currentIndexChanged.connect(
-        lambda: composer.setSelectedSignal(self, self.signalsMenu.currentIndex()))
-    self.signalsMenu.currentIndexChanged.connect(
-        lambda: self.frequencySlider.setValue(self.sinusoid_creator_array[self.sinusoid_index].frequency))
-    self.signalsMenu.currentIndexChanged.connect(
-        lambda: self.magnitudeSlider.setValue(self.sinusoid_creator_array[self.sinusoid_index].magnitude))
-    self.signalsMenu.currentIndexChanged.connect(
-        lambda: self.phaseSlider.setValue(self.sinusoid_creator_array[self.sinusoid_index].phaseshift))
+        lambda: composer.updateSinusoid(self, input=self.signalsMenu.currentIndex()))
 
     '''Viewer Tab'''
 

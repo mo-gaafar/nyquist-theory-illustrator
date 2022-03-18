@@ -11,6 +11,8 @@ import utility as util
 import openfile
 import viewer
 from scipy import signal
+import composer
+
 
 DEBUG_MODE = True
 MAX_SAMPLES = 200
@@ -30,7 +32,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Nyquist Theory Illustrator")
 
        # initialize arrays and variables
-        self.sinusoid_creator_array = [Sinusoid()]
+        self.sinusoid_creator_array = []
         self.sinusoid_index = 0
         self.sinusoid_number = 1
         self.browsed_signal = SampledSignal()
@@ -49,6 +51,8 @@ class MainWindow(QtWidgets.QMainWindow):
                                     "Summed": PlotterWindow(self.summedSignal.plot()),
                                     "Primary2": PlotterWindow(self.primaryPlot.plot())
                                     }
+
+        composer.plotSinusoidal(self)
 
         # testing graph objects THIS IS AN EXAMPLE :)
         #xAxis = np.linspace(0, np.pi * 2, 200)
