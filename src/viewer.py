@@ -32,7 +32,7 @@ def move_to_viewer(self, Input):
     self.samplingSlider.setMaximum(3*(self.viewer_original_signal.max_analog_frequency))
 
     self.plotter_window_dict["Primary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
-    self.plotter_window_dict["Secondary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
+    
     
 # plot the browsed signal on the prim and sec screens 
         # change 
@@ -60,7 +60,7 @@ def change_sampling_rate (self, freqvalue):
     self.plotter_window_dict["Primary"].plot_reference.setData(self.viewer_original_signal.time,self.new)
     
    
-
+    self.plotter_window_dict["Secondary"].plot_reference.setData(self.viewer_original_signal.time,self.new)
 
 
 
