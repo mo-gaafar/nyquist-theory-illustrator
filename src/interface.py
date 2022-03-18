@@ -26,7 +26,7 @@ def init_connectors(self):
     self.clearComposerButton = self.findChild(
         QPushButton, "clearComposerButton")
     self.clearComposerButton.clicked.connect(
-        lambda: util.printDebug("not connected"))
+        lambda: composer.clearComposer(self))
 
     self.addSineButton = self.findChild(QPushButton, "addSineButton")
     self.addSineButton.clicked.connect(
@@ -35,6 +35,7 @@ def init_connectors(self):
     #    lambda: composer.plotSinusoidal(self))
 
     self.deleteSineButton = self.findChild(QPushButton, "deleteSineButton")
+    self.deleteSineButton.hide()
     self.deleteSineButton.clicked.connect(
         lambda: composer.deleteSinusoidal(self))
 

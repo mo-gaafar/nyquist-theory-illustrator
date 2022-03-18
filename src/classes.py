@@ -36,13 +36,14 @@ class SummedSinusoid():
         self.max_analog_frequency = 1
         self.xAxis = []
         self.yAxis = []
-        if len(sinusoid_array) > 1:
+        if len(sinusoid_array) > 0:
             self.xAxis = sinusoid_array[0].xAxis  # TODO: think of a better way
             yAxis_sum = sinusoid_array[0].yAxis
 
-            for index in range(len(self.sinusoid_array)):
-                if index != 0:
-                    yAxis_sum = yAxis_sum + self.sinusoid_array[index].yAxis
+            if len(sinusoid_array) > 1:
+                for index in range(len(self.sinusoid_array)):
+                    if index != 0:
+                        yAxis_sum = yAxis_sum + self.sinusoid_array[index].yAxis
             self.yAxis = yAxis_sum
             self.max_analog_frequency = self._get_max_frequency()
 

@@ -48,85 +48,76 @@ def plotSinusoidal(self):
 def clearSinusoidal(self):
     xAxis = np.linspace(0, np.pi * 0, 200)
     yAxis = np.sin(xAxis)
-    self.plotter_window_dict["Sinusoid"].plot_reference.setData(xAxis, yAxis)
-    sumSinusoids(self)  # calls sum sinusoids again to update sum
-
+    self.plotter_window_dict["Summed"].plot_reference.setData(xAxis, yAxis)
 
 def updateSinusoid(self, input):
     self.sinusoid_index = input
-    if self.sinusoid_index < len(self.sinusoid_creator_array):
-        self.frequencySlider.setValue(
-            self.sinusoid_creator_array[self.sinusoid_index].frequency)
-        self.magnitudeSlider.setValue(
-            self.sinusoid_creator_array[self.sinusoid_index].magnitude)
-        self.phaseSlider.setValue(
-            self.sinusoid_creator_array[self.sinusoid_index].phaseshift)
+    if len(self.sinusoid_creator_array) !=0:
+        if self.sinusoid_index < len(self.sinusoid_creator_array):
+            self.frequencySlider.setValue(
+                self.sinusoid_creator_array[self.sinusoid_index].frequency)
+            self.magnitudeSlider.setValue(
+                self.sinusoid_creator_array[self.sinusoid_index].magnitude)
+            self.phaseSlider.setValue(
+                self.sinusoid_creator_array[self.sinusoid_index].phaseshift)
+            self.deleteSineButton.show()
+        else:
+            self.frequencySlider.setValue(1)
+            self.magnitudeSlider.setValue(1)
+            self.phaseSlider.setValue(0)
+            self.deleteSineButton.hide()
     else:
         self.frequencySlider.setValue(1)
         self.magnitudeSlider.setValue(1)
         self.phaseSlider.setValue(0)
-
-
-# def setSelectedSignal(self, Input):
-#     self.sinusoid_index = Input
-#     if self.sinusoid_index < len(self.sinusoid_creator_array):
-#         util.printDebug("Sinusoid Creator arr")
-#         util.printDebug(self.sinusoid_creator_array)
-#         self.signalsMenu.currentIndexChanged.connect(
-#             lambda: self.frequencySlider.setValue(self.sinusoid_creator_array[self.sinusoid_index].frequency))
-#         self.signalsMenu.currentIndexChanged.connect(
-#             lambda: self.magnitudeSlider.setValue(self.sinusoid_creator_array[self.sinusoid_index].magnitude))
-#         self.signalsMenu.currentIndexChanged.connect(
-#             lambda: self.phaseSlider.setValue(self.sinusoid_creator_array[self.sinusoid_index].phaseshift))
-#     else:
-#         self.signalsMenu.currentIndexChanged.connect(
-#             lambda: self.frequencySlider.setValue(1))
-#         self.signalsMenu.currentIndexChanged.connect(
-#             lambda: self.magnitudeSlider.setValue(1))
-#         self.signalsMenu.currentIndexChanged.connect(
-#             lambda: self.phaseSlider.setValue(0))
+        self.deleteSineButton.hide()
     plotSinusoidal(self)
 
 
 def addSinusoidal(self):
-    # if self.sinusoid_creator_array[self.sinusoid_index]._is_added == False:
-    #self.sinusoid_creator_array[self.sinusoid_index]._is_added = True
-    self.sinusoid_creator_array.append(classes.Sinusoid(index=self.sinusoid_index, magnitude=self.magnitudeSlider.value(
-    ), phaseshift=self.phaseSlider.value(), frequency=self.frequencySlider.value()))
-    self.sinusoid_number += 1
-    self.signalsMenu.addItem("Signal " + str(self.sinusoid_number))
+    if self.sinusoid_index == len(self.sinusoid_creator_array):
+        self.sinusoid_creator_array.append(classes.Sinusoid(index=self.sinusoid_index, magnitude=self.magnitudeSlider.value(
+        ), phaseshift=self.phaseSlider.value(), frequency=self.frequencySlider.value()))
+        self.sinusoid_number += 1
+        self.signalsMenu.addItem("Signal " + str(self.sinusoid_number))
+    else:
+        self.sinusoid_creator_array[self.sinusoid_index].frequency = self.frequencySlider.value()
+        self.sinusoid_creator_array[self.sinusoid_index].magnitude = self.magnitudeSlider.value()
+        self.sinusoid_creator_array[self.sinusoid_index].phaseshift = self.phaseSlider.value()
+        xAxis = np.linspace(0, np.pi * 2, 200)
+        self.sinusoid_creator_array[self.sinusoid_index].yAxis = self.magnitudeSlider.value() * np.sin((xAxis * self.frequencySlider.value()) + self.phaseSlider.value())
     sumSinusoids(self)
     self.signalsMenu.setCurrentIndex(len(self.sinusoid_creator_array))
-    print(len(self.sinusoid_creator_array))
-    print(self.signalsMenu.currentIndex())
-    print("-----------")
 
 
 def deleteSinusoidal(self):
     self.sinusoid_creator_array.pop(self.sinusoid_index)
     self.signalsMenu.removeItem(self.sinusoid_index)
     sumSinusoids(self)
-    print(len(self.sinusoid_creator_array))
-    print(self.signalsMenu.currentIndex())
-    print("-----------")
 
 
 def sumSinusoids(self):
     xAxis = np.linspace(0, np.pi * 2, 200)
 
-    if len(self.sinusoid_creator_array) > 1:
+    if len(self.sinusoid_creator_array) > 0:
         self.summed_signal = classes.SummedSinusoid(
             self.sinusoid_creator_array)
         self.plotter_window_dict["Summed"].plot_reference.setData(
             xAxis, self.summed_signal.yAxis)
-        #xAxis = np.linspace(0, np.pi * 2, 200)
         util.printDebug("Max analog freq component: " +
                         str(self.summed_signal.max_analog_frequency))
     else:
-        self.summed_signal = self.sinusoid_creator_array
-        self.plotter_window_dict["Summed"].plot_reference.setData(
-            xAxis, self.sinusoid_creator_array[self.sinusoid_index].yAxis)
+        clearSinusoidal(self)
 
     # TODO: it keeps automatically summing an extra 1hz default sine wave on confirm
     # TODO: sum does not update on delete??
     # TODO: program crashes when all the signal are deleted
+
+
+def clearComposer(self):
+    clearSinusoidal(self)
+    self.sinusoid_creator_array = []
+    self.signalsMenu.clear()
+    self.sinusoid_number = 1
+    self.signalsMenu.addItem("Signal " + str(self.sinusoid_number))
+

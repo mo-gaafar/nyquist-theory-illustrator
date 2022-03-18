@@ -485,6 +485,9 @@ selection-background-color: rgb(19, 28, 38);</string>
                      <layout class="QHBoxLayout" name="horizontalLayout_9">
                       <item>
                        <widget class="QSlider" name="phaseSlider">
+                        <property name="maximum">
+                         <number>6</number>
+                        </property>
                         <property name="orientation">
                          <enum>Qt::Horizontal</enum>
                         </property>
