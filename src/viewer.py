@@ -21,9 +21,9 @@ def move_to_viewer(self, Input):
     elif Input == "browse":
         self.viewer_original_signal = Signal(self.browsed_signal.magnitude_array,self.browsed_signal.time_array,self.browsed_signal.max_analog_frequency )
         print("browse elif")
-        self.plotter_window_dict["Primary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
-        self.plotter_window_dict["Secondary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
-
+    self.plotter_window_dict["Primary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
+    self.plotter_window_dict["Secondary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
+    
 # plot the browsed signal on the prim and sec screens 
         # change 
     
