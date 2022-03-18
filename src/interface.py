@@ -74,7 +74,9 @@ def init_connectors(self):
     # Created signals combobox
     self.signalsMenu = self.findChild(QComboBox, "signalsMenu")
     self.signalsMenu.currentIndexChanged.connect(
-        lambda: composer.setSelectedSignal(self, self.signalsMenu.currentIndex()))
+        lambda: composer.setSelectedSignal(self, Input = self.signalsMenu.currentIndex()))
+    self.signalsMenu.currentIndexChanged.connect(
+        lambda: print("change"))
 
     '''Viewer Tab'''
 

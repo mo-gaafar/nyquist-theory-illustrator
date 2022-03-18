@@ -53,7 +53,7 @@ def clearSinusoidal(self):
 
 def setSelectedSignal(self, Input):
     self.sinusoid_index = Input
-    if self.signalsMenu.currentIndex() < len(self.sinusoid_creator_array):
+    if self.sinusoid_index < len(self.sinusoid_creator_array):
         self.signalsMenu.currentIndexChanged.connect(
         lambda: self.frequencySlider.setValue(self.sinusoid_creator_array[self.sinusoid_index].frequency))
         self.signalsMenu.currentIndexChanged.connect(
