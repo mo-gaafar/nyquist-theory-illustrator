@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QFileDialog
 import wfdb
 import numpy as np
 import main
+import viewer
 
 
 def browse_window(self):
@@ -13,6 +14,7 @@ def browse_window(self):
     path = self.filename[0]
     util.printDebug("Selected path: " + path)
     open_file(self, path)
+    viewer.move_to_viewer(self, "browse")
 
 
 def open_file(self, path):
@@ -33,7 +35,7 @@ def open_file(self, path):
         temp_arr_y = np.concatenate(temp_arr_y)
 
         self.fsampling = self.record.fs
-        # classes.FreqRangeMax = self.fsampling/2
+        #classes.FreqRangeMax = self.fsampling/2
 
         for Index in range(len(temp_arr_y)):
             if main.MAX_SAMPLES <= len(temp_arr_y):
@@ -48,5 +50,5 @@ def open_file(self, path):
                 TempArrX.append(
                     float(line[0]))'''
 
-    return SampledSignal('''pass arguments into the constructor''')
+    self.browsed_signal = SampledSignal(self.fsampling , temp_arr_y)
     #TODO: help

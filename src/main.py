@@ -34,8 +34,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.sinusoid_creator_array = []
         self.sinusoid_index = 0
         self.sinusoid_number = 1
-        self.interpolated_signal = SampledSignal()
-        # self.summed_signal = SummedSinusoid()
+        self.browsed_signal = SampledSignal()
+        self.summed_signal = SummedSinusoid()
+        self.viewer_orginal_signal = Signal()
+        self.interpolated_signal = Signal()
 
         interface.init_connectors(self)
         util.printDebug(

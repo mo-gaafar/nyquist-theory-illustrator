@@ -1,6 +1,5 @@
+
 import numpy as np
-
-
 
 class Sinusoid():
     ''' One sinusoid function object'''
@@ -36,6 +35,7 @@ class SummedSinusoid():
         self.max_analog_frequency = 1
         self.xAxis = []
         self.yAxis = []
+        
         if len(sinusoid_array) > 0:
             self.xAxis = sinusoid_array[0].xAxis  # TODO: think of a better way
             yAxis_sum = sinusoid_array[0].yAxis
@@ -62,13 +62,25 @@ class SampledSignal():
 
     def __init__(self, sampling_frequency=1, magnitude_array=[]):
         self.sampling_frequency = sampling_frequency
+        self.max_analog_frequency = (1/2)*self.sampling_frequency
         self.magnitude_array = magnitude_array
         self.total_samples = len(magnitude_array)
-        self.time_array = self.generate_time_array()
+        self.time_array = []
+        self.generate_time_array()
 
     def generate_time_array(self):
         for index in range(self.total_samples):
             self.time_array.append(index/self.sampling_frequency)
+    
+
+
+class Signal():
+    '''An object containing the generic signal'''
+    def __init__(self, magnitude = [], time = [] , max_analog_frequency = 1):
+        self.magnitude= magnitude
+        self.time= time
+        self.max_analog_frequency= max_analog_frequency
+    
 
 
 class PlotterWindow():

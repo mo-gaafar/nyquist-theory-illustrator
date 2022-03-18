@@ -109,6 +109,7 @@ def sumSinusoids(self):
     else:
         clearSinusoidal(self)
 
+
     # TODO: it keeps automatically summing an extra 1hz default sine wave on confirm
     # TODO: sum does not update on delete??
     # TODO: program crashes when all the signal are deleted
