@@ -1,5 +1,5 @@
 from PyQt5 import QtGui, QtCore, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QAction, QMenuBar, QMenu,  QApplication, QPushButton, QSlider, QTextEdit, QFileDialog, QScrollBar, QComboBox, QCheckBox, QScrollBar, QLCDNumber, QLineEdit
+from PyQt5.QtWidgets import QMainWindow, QTabWidget, QAction, QMenuBar, QMenu,  QApplication, QPushButton, QSlider, QTextEdit, QFileDialog, QScrollBar, QComboBox, QCheckBox, QScrollBar, QLCDNumber, QLineEdit
 from PyQt5.QtGui import *
 
 import main
@@ -21,6 +21,8 @@ def init_connectors(self):
     self.actionOpen.triggered.connect(
         lambda: openfile.browse_window(self))
 
+    self.WindowTabs = self.findChild(QTabWidget, "WindowTabs")
+
     ''' Composer Tab'''
 
     self.clearComposerButton = self.findChild(
@@ -31,7 +33,7 @@ def init_connectors(self):
     self.addSineButton = self.findChild(QPushButton, "addSineButton")
     self.addSineButton.clicked.connect(
         lambda: composer.addSinusoidal(self))
-    #self.addSineButton.clicked.connect(
+    # self.addSineButton.clicked.connect(
     #    lambda: composer.plotSinusoidal(self))
 
     self.deleteSineButton = self.findChild(QPushButton, "deleteSineButton")
@@ -71,12 +73,11 @@ def init_connectors(self):
     self.confirmButton = self.findChild(QPushButton, "confirmButton")
     self.confirmButton.clicked.connect(
         lambda: viewer.move_to_viewer(self, "composer"))
-    
 
     # Created signals combobox
     self.signalsMenu = self.findChild(QComboBox, "signalsMenu")
     self.signalsMenu.currentIndexChanged.connect(
-        lambda: composer.updateSinusoid(self, input = self.signalsMenu.currentIndex()))
+        lambda: composer.updateSinusoid(self, input=self.signalsMenu.currentIndex()))
 
     '''Viewer Tab'''
 
