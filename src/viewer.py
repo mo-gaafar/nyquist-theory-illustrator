@@ -9,6 +9,8 @@ import utility as util
 from classes import *  
 import openfile
 import main
+from PyQt5 import QtWidgets
+
 def move_to_viewer(self, Input):
     print("move")
 
@@ -16,7 +18,11 @@ def move_to_viewer(self, Input):
         print("composer_if")
         #plot summed signal on primary and secondary screens (DONE)
         #we need to get  the summed signal (DONE)
-        self.viewer_original_signal = Signal(self.summed_signal.yAxis,self.summed_signal.xAxis,self.summed_signal.max_analog_frequency)
+        if len(self.summed_signal.sinusoid_array) <= 1:
+            QtWidgets.QMessageBox.warning(
+            self, 'NO SIGNAL ', 'You have to plot a signal first')
+        else:   
+            self.viewer_original_signal = Signal(self.summed_signal.yAxis,self.summed_signal.xAxis,self.summed_signal.max_analog_frequency)
 
     elif Input == "browse":
         self.viewer_original_signal = Signal(self.browsed_signal.magnitude_array,self.browsed_signal.time_array,self.browsed_signal.max_analog_frequency )
@@ -51,5 +57,7 @@ def change_sampling_rate (self, Input):
 def delete_primary_secondary(self):
     self.plotter_window_dict["Primary"].plot_reference.setData(xAxis=0,yAxis=0)
     self.plotter_window_dict["Secondary"].plot_reference.setData(xAxis=0,yAxis=0)
+    QtWidgets.QMessageBox.information(
+                self, 'Deleted', 'Your signal has been deleted')
 
 
