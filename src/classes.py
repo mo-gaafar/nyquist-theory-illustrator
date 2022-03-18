@@ -68,7 +68,8 @@ class SampledSignal():
         self.max_analog_frequency = (1/2)*self.sampling_frequency
         self.magnitude_array = magnitude_array
         self.total_samples = len(magnitude_array)
-        self.time_array = self.generate_time_array()
+        self.time_array = []
+        self.generate_time_array()
 
     def generate_time_array(self):
         for index in range(self.total_samples):

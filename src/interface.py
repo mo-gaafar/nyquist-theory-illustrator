@@ -88,13 +88,13 @@ def init_connectors(self):
     self.clearViewerButton = self.findChild(QPushButton, "clearViewerButton")
     self.clearViewerButton.clicked.connect(
         lambda: viewer.delete_primary_secondary(self))
-
+#************************************************************************************#
     self.splitButton = self.findChild(QPushButton, "splitButton")
     self.splitButton.clicked.connect(lambda: util.printDebug("not connected"))
 
     # Sampling frequency control
     self.samplingSlider = self.findChild(QSlider, "samplingSlider")
     self.samplingSlider.valueChanged.connect(
-        lambda: util.printDebug("not connected"))
+        lambda: viewer.change_sampling_rate(self, "freqrate"))
 
     self.samplingLCD = self.findChild(QLCDNumber, "samplingLCD")

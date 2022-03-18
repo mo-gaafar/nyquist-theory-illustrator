@@ -6,8 +6,9 @@
 import classes
 import numpy as np
 import utility as util
-
-
+from classes import *  
+import openfile
+import main
 def move_to_viewer(self, Input):
     print("move")
 
@@ -15,17 +16,20 @@ def move_to_viewer(self, Input):
         print("composer_if")
         #plot summed signal on primary and secondary screens (DONE)
         #we need to get  the summed signal (DONE)
-        self.signal=self.summed_signal
-        self.plotter_window_dict["Primary"].plot_reference.setData(self.summed_signal.xAxis, self.summed_signal.yAxis)
-        self.plotter_window_dict["Secondary"].plot_reference.setData(self.summed_signal.xAxis, self.summed_signal.yAxis)
-    
-    elif Input == "browse":
-        self.plotter_window_dict["Primary"].plot_reference.setData(self.summed_signal.xAxis, self.summed_signal.yAxis)        
-        self.plotter_window_dict["Secondary"].plot_reference.setData(self.summed_signal.xAxis, self.summed_signal.yAxis)
+        self.viewer_original_signal = Signal(self.summed_signal.yAxis,self.summed_signal.xAxis,self.summed_signal.max_analog_frequency)
 
-        # plot the browsed signal on the prim and sec screens 
+    elif Input == "browse":
+        self.viewer_original_signal = Signal(self.browsed_signal.magnitude_array,self.browsed_signal.time_array,self.browsed_signal.max_analog_frequency )
+        print("browse elif")
+        self.plotter_window_dict["Primary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
+        self.plotter_window_dict["Secondary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
+
+# plot the browsed signal on the prim and sec screens 
         # change 
-       
+    
+    # self.plotter_window_dict["Primary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
+    # self.plotter_window_dict["Secondary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
+
     #plot it on the primary and secondary screens
     # add changes on the prim screen    
 
@@ -33,8 +37,9 @@ def move_to_viewer(self, Input):
     #TODO change the tab to viewer
         # TODO  if not make a dialogue box 
 
-def change_sampling_rate (self):
-    
+def change_sampling_rate (self, Input):
+
+
     # add points based on sampling rate 
     # plot the points
     # connect them by using interpolation 
