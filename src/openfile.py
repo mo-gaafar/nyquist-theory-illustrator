@@ -9,12 +9,14 @@ import viewer
 
 
 def browse_window(self):
+    self.graph_empty=False
     self.filename = QFileDialog.getOpenFileName(
         None, 'open the signal file', './', filter="Raw Data(*.csv *.txt *.xls *.hea *.dat *.rec)")
     path = self.filename[0]
     util.printDebug("Selected path: " + path)
     open_file(self, path)
     viewer.move_to_viewer(self, "browse")
+
 
 
 def open_file(self, path):

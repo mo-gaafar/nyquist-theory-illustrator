@@ -1,9 +1,7 @@
 # please for the love of god https://namingconvention.org/python/ use the pythonic naming convention here
 
-from PyQt5 import QtGui, QtCore, QtWidgets, uic
-from pyqtgraph import PlotWidget
+from PyQt5 import QtGui, QtWidgets, uic
 import sys
-import numpy as np
 
 from classes import *
 import interface
@@ -27,6 +25,11 @@ class MainWindow(QtWidgets.QMainWindow):
         # set the title and icon
         self.setWindowIcon(QtGui.QIcon('./data/icons/icon.png'))
         self.setWindowTitle("Nyquist Theory Illustrator")
+
+        #for deleted graph/Empty Graph
+        self.graph_deleted=False
+        self.graph_empty=True
+
 
        # initialize arrays and variables
         self.sinusoid_creator_array = []

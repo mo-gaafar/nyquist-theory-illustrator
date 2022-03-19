@@ -1,10 +1,6 @@
-from PyQt5 import QtGui, QtCore, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QTabWidget, QAction, QMenuBar, QMenu,  QApplication, QPushButton, QSlider, QTextEdit, QFileDialog, QScrollBar, QComboBox, QCheckBox, QScrollBar, QLCDNumber, QLineEdit
-from PyQt5.QtGui import *
 
-import main
-import classes
-import utility as util
+from PyQt5.QtWidgets import  QTabWidget, QAction, QPushButton, QSlider, QComboBox, QLCDNumber
+from PyQt5.QtGui import *
 import composer
 import openfile
 import viewer
@@ -74,7 +70,7 @@ def init_connectors(self):
     # Confirm move to viewer
     self.confirmButton = self.findChild(QPushButton, "confirmButton")
     self.confirmButton.clicked.connect(
-        lambda: viewer.move_to_viewer(self, "composer"))
+        lambda: viewer.control_viewer(self))
 
     # Created signals combobox
     self.signalsMenu = self.findChild(QComboBox, "signalsMenu")
@@ -86,7 +82,6 @@ def init_connectors(self):
     self.clearViewerButton = self.findChild(QPushButton, "clearViewerButton")
     self.clearViewerButton.clicked.connect(
         lambda: viewer.delete_primary_secondary(self))
-#************************************************************************************#
     self.splitButton = self.findChild(QPushButton, "splitButton")
     self.splitButton.clicked.connect(lambda: viewer.toggle_secondary(self))
 
