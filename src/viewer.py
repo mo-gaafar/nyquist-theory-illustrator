@@ -102,20 +102,18 @@ def change_sampling_rate(self, freqvalue):
         self.plotter_window_dict["Secondary"].plot_reference.setData( self.viewer_original_signal.time, self.interpolated_magnitude, pen=self.pen)
 
 
-def sinc_interp(x, s, u):
-
-    # Interpolates x, sampled at "s" instants
-    # Output y is sampled at "u" instants ("u" for "upsampled")
-
-    if len(x) != len(s):
+def sinc_interp(input_magnitude, input_time, original_time):
+    
+    
+    if len(input_magnitude) != len(input_time):
         print('not same')
 
     # Find the period
-    T = s[1] - s[0]
+    T = input_time[1] - input_time[0]
 
-    sincM = np.tile(u, (len(s), 1)) - np.tile(s[:, np.newaxis], (1, len(u)))
-    y = np.dot(x, np.sinc(sincM/T))
-    return y
+    sincM = np.tile(original_time, (len(input_time), 1)) - np.tile(input_time[:, np.newaxis], (1, len(original_time)))
+    output_magnitude = np.dot(input_magnitude, np.sinc(sincM/T))
+    return output_magnitude
 
 
 def delete_primary_secondary(self):
