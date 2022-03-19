@@ -50,5 +50,4 @@ def open_file(self, path):
                 TempArrX.append(
                     float(line[0]))'''
 
-    self.browsed_signal = SampledSignal(self.fsampling , temp_arr_y)
-    #TODO: help
+    self.browsed_signal = SampledSignal(self.fsampling, temp_arr_y)
