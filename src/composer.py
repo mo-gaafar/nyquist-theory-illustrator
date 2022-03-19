@@ -24,34 +24,36 @@ import main
 import utility as util
 
 
+# PLOTS THE SELECTED SINE IN SMALL COMPOSER WINDOW
 def plotSinusoidal(self):
-    #freq = self.sinusoid_creator_array[self.sinusoid_index].frequency
-    #mag = self.sinusoid_creator_array[self.sinusoid_index].magnitude
-    #phase = self.sinusoid_creator_array[self.sinusoid_index].phaseshift
-    #xAxis = np.linspace(0, np.pi * 2, 200)
-    # self.sinusoid_creator_array[self.sinusoid_index].yAxis = mag * \
-    #    np.sin((xAxis * freq) + phase)
-    # self.plotter_window_dict["Sinusoid"].plot_reference.setData(
-    #    xAxis, self.sinusoid_creator_array[self.sinusoid_index].yAxis)
-
+    
+    # Get sliders values
     freq = self.frequencySlider.value()
     mag = self.magnitudeSlider.value()
     phase = self.phaseSlider.value()
+    
+    # Set axes and plot
     xAxis = np.linspace(0, np.pi * 2, 200)
     yAxis = mag * np.sin((xAxis * freq) + phase)
+    pi_labels = [(0, 0), (np.pi / 2, "π/2"), (np.pi, "π"), (3 * np.pi / 2, "3π/2"), (np.pi * 2, "2π")]
     self.plotter_window_dict["Sinusoid"].plot_reference.setData(
         xAxis, yAxis)
+    ax=self.sinusoidalSignal.getAxis('bottom')
+    ax.setTicks([pi_labels])
 
-    # change axes and sliders to rad
 
-
+    # CLEARS SINE PLOT WINDOW
 def clearSinusoidal(self):
     xAxis = np.linspace(0, np.pi * 0, 200)
     yAxis = np.sin(xAxis)
     self.plotter_window_dict["Summed"].plot_reference.setData(xAxis, yAxis)
 
+
+    # CALLED WHEN MENU INDEX CHANGES TO UPDATE COMPOSER DATA
 def updateSinusoid(self, input):
     self.sinusoid_index = input
+
+    # Set slider values to appropriate positions when user selects already added signal
     if len(self.sinusoid_creator_array) !=0:
         if self.sinusoid_index < len(self.sinusoid_creator_array):
             self.frequencySlider.setValue(
@@ -61,6 +63,7 @@ def updateSinusoid(self, input):
             self.phaseSlider.setValue(
                 self.sinusoid_creator_array[self.sinusoid_index].phaseshift)
             self.deleteSineButton.show()
+        # Set slider values to default when yet to be confirmed signal is selected
         else:
             self.frequencySlider.setValue(1)
             self.magnitudeSlider.setValue(1)
@@ -74,12 +77,17 @@ def updateSinusoid(self, input):
     plotSinusoidal(self)
 
 
+    # ADDS GENERATED SINE TO SUMMER
 def addSinusoidal(self):
+
+    # Add new sine
     if self.sinusoid_index == len(self.sinusoid_creator_array):
         self.sinusoid_creator_array.append(classes.Sinusoid(index=self.sinusoid_index, magnitude=self.magnitudeSlider.value(
         ), phaseshift=self.phaseSlider.value(), frequency=self.frequencySlider.value()))
         self.sinusoid_number += 1
         self.signalsMenu.addItem("Signal " + str(self.sinusoid_number))
+        
+        # Edit existing sine
     else:
         self.sinusoid_creator_array[self.sinusoid_index].frequency = self.frequencySlider.value()
         self.sinusoid_creator_array[self.sinusoid_index].magnitude = self.magnitudeSlider.value()
@@ -99,20 +107,23 @@ def deleteSinusoidal(self):
 def sumSinusoids(self):
     xAxis = np.linspace(0, np.pi * 2, 200)
 
+    # Create SummedSinusoid object with array of sinusoids where they get summed
     if len(self.sinusoid_creator_array) > 0:
         self.summed_signal = classes.SummedSinusoid(
             self.sinusoid_creator_array)
+        pi_labels = [(0, 0), (np.pi / 2, "π/2"), (np.pi, "π"), (3 * np.pi / 2, "3π/2"), (np.pi * 2, "2π")]
         self.plotter_window_dict["Summed"].plot_reference.setData(
             xAxis, self.summed_signal.yAxis)
+        ax=self.summedSignal.getAxis('bottom')
+        ax.setTicks([pi_labels])
         util.printDebug("Max analog freq component: " +
                         str(self.summed_signal.max_analog_frequency))
+
+    # If all sines are deleted
     else:
         clearSinusoidal(self)
 
 
-    # TODO: it keeps automatically summing an extra 1hz default sine wave on confirm
-    # TODO: sum does not update on delete??
-    # TODO: program crashes when all the signal are deleted
 
 
 def clearComposer(self):
