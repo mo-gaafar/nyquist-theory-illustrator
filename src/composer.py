@@ -14,13 +14,9 @@ Leftmost graph
 2. if sinusoid confirmation or deletion button is clicked trigger the sine summing function
 3. and then update plot with the sine summing function's output array'''
 
-from unittest import case
-from matplotlib.axis import YAxis
-import numpy as np
 
+import numpy as np
 import classes
-import interface
-import main
 import utility as util
 
 
@@ -101,7 +97,7 @@ def addSinusoidal(self):
     sumSinusoids(self)
     self.signalsMenu.setCurrentIndex(len(self.sinusoid_creator_array))
 
-
+#TODO : if there is no signal an error message appears 
 def deleteSinusoidal(self):
     self.sinusoid_creator_array.pop(self.sinusoid_index)
     self.signalsMenu.removeItem(self.sinusoid_index)

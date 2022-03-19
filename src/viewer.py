@@ -3,16 +3,20 @@
 2. plots intersection points each time
 3. updates the graph when the '''
 
-import classes
 import numpy as np
-import utility as util
 from classes import *
 import interface
-import openfile
-import main
 from scipy import signal
 from PyQt5 import QtWidgets, QtCore
 import pyqtgraph as pg
+
+def control_viewer(self):
+    ''' Control the transition from composer to viewer'''
+    if len(self.sinusoid_creator_array) == 0:
+        QtWidgets.QMessageBox.warning(
+            self, 'NO SIGNAL ', 'You have to plot a signal first')
+    else:
+        move_to_viewer(self,Input="composer")
 
 
 def move_to_viewer(self, Input):
@@ -36,28 +40,14 @@ def move_to_viewer(self, Input):
 
     self.plotter_window_dict["Primary"].plot_reference.setData(
         self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
+    
+    self.plotter_window_dict["Secondary"].plot_reference.setData(
+        self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
     self.graph_empty=False
     self.graph_deleted=False
 
 
-# plot the browsed signal on the prim and sec screens
-    # change
-
-    self.plotter_window_dict["Secondary"].plot_reference.setData(
-        self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
-
-    #self.WindowTabs.setCurrentIndex(1)
-# plot the browsed signal on the prim and sec screens
-    # change
-    # self.plotter_window_dict["Primary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
-    # self.plotter_window_dict["Secondary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
-
-    # plot it on the primary and secondary screens
-    # add changes on the prim screen
-
-
 def toggle_secondary(self):
-    # TODO: Make this work (Done)
     if interface.ToggleSecondary == False:
         interface.ToggleSecondary = True
         self.reconstructedPlot.show()
@@ -72,8 +62,7 @@ def change_sampling_rate(self, freqvalue):
 
     if freqvalue <2:
         freqvalue=2
-    # TODO: Fix errors when there is no signal imported../ or signals are deleted
-    # TODO: Fix the slider range to not sample below 2 because it causes errors
+
     if self.graph_deleted==True:
     
         QtWidgets.QMessageBox.warning( self, 'NO SIGNAL ', 'THE SIGNAL IS DELETED')
@@ -122,10 +111,9 @@ def delete_primary_secondary(self):
         QtWidgets.QMessageBox.information(self, 'NO SIGNAL', 'NO SIGNAL TO DELETE')
         
     else:
-        # TODO: Doesnt delete the signal..
     # overwrite variables
-         self.browsed_signal = []
-         self.summed_signal = []
+         #self.browsed_signal = []
+         #self.summed_signal = []
          self.viewer_orginal_signal = []
          self.interpolated_signal = []
          self.resampled_time = []

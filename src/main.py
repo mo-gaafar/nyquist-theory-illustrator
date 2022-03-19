@@ -1,9 +1,7 @@
 # please for the love of god https://namingconvention.org/python/ use the pythonic naming convention here
 
-from PyQt5 import QtGui, QtCore, QtWidgets, uic
-from pyqtgraph import PlotWidget
+from PyQt5 import QtGui, QtWidgets, uic
 import sys
-import numpy as np
 
 from classes import *
 import interface
