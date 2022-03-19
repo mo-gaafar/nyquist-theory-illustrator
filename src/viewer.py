@@ -20,7 +20,7 @@ def move_to_viewer(self, Input):
     if Input == "composer":
         # plot summed signal on primary and secondary screens (DONE)
         # we need to get  the summed signal (DONE)
-        if len(self.summed_signal.sinusoid_array) <= 1:
+        if len(self.sinusoid_creator_array) < 1:
             QtWidgets.QMessageBox.warning(
                 self, 'NO SIGNAL ', 'You have to plot a signal first')
         else:
@@ -55,7 +55,7 @@ def move_to_viewer(self, Input):
 
 
 def toggle_secondary(self):
-    # TODO: Make this work
+    # TODO: Make this work (Done)
     if interface.ToggleSecondary == False:
         interface.ToggleSecondary = True
         self.reconstructedPlot.show()
