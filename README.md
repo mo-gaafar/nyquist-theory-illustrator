@@ -18,6 +18,9 @@ csv, txt, xls, hea, dat, rec
 - pyqtgraph
 - wfdb
 - scipy
+- utility
+- numpy
+- 
 
 ## Preview
 
