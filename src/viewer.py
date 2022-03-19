@@ -58,9 +58,11 @@ def toggle_secondary(self):
     # TODO: Make this work
     if interface.ToggleSecondary == False:
         interface.ToggleSecondary = True
+        self.reconstructedPlot.show()
         # change size back to default
     else:
         interface.ToggleSecondary = False
+        self.reconstructedPlot.hide()
         # change size to 0x0x0
 
 
