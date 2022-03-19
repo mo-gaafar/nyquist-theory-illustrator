@@ -28,6 +28,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon('./data/icons/icon.png'))
         self.setWindowTitle("Nyquist Theory Illustrator")
 
+        #for deleted graph/Empty Graph
+        self.graph_deleted=False
+        self.graph_empty=True
+
+
        # initialize arrays and variables
         self.sinusoid_creator_array = []
         self.sinusoid_index = 0

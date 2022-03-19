@@ -36,6 +36,7 @@ def move_to_viewer(self, Input):
 
     self.plotter_window_dict["Primary"].plot_reference.setData(
         self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
+    self.graph_empty=False
 
 
 # plot the browsed signal on the prim and sec screens
@@ -67,32 +68,34 @@ def toggle_secondary(self):
 
 
 def change_sampling_rate(self, freqvalue):
+
+    if freqvalue <2:
+        freqvalue=2
     # TODO: Fix errors when there is no signal imported../ or signals are deleted
     # TODO: Fix the slider range to not sample below 2 because it causes errors
+    if self.graph_deleted==True:
+        print('DELETED')
+             #QtWidgets.QMessageBox.warning( self, 'NO SIGNAL ', 'THE SIGNAL IS DELETED')
+    elif self.graph_empty==True:
+        QtWidgets.QMessageBox.warning( self, 'NO SIGAL ', 'NO SIGNAL IMPORTED')
+    else:
+        self.resampled_magnitude = signal.resample( x=self.viewer_original_signal.magnitude, num=freqvalue)
+        self.resampled_time = np.linspace(0, self.viewer_original_signal.time[len( self.viewer_original_signal.time)-1], freqvalue, endpoint=False)
 
-    self.resampled_magnitude = signal.resample(
-        x=self.viewer_original_signal.magnitude, num=freqvalue)
-    self.resampled_time = np.linspace(0, self.viewer_original_signal.time[len(
-        self.viewer_original_signal.time)-1], freqvalue, endpoint=False)
+        self.new = sinc_interp(self.resampled_magnitude, self.resampled_time, self.viewer_original_signal.time)
 
-    self.new = sinc_interp(self.resampled_magnitude,
-                           self.resampled_time, self.viewer_original_signal.time)
+        self.pen = pg.mkPen(color=(150, 150, 150), width=2,style=QtCore.Qt.DotLine)
+        self.plotter_window_dict["Primary"].plot_reference.setData(    self.viewer_original_signal.time, self.viewer_original_signal.magnitude, pen=self.pen)
 
-    self.pen = pg.mkPen(color=(150, 150, 150), width=2,
-                        style=QtCore.Qt.DotLine)
-    self.plotter_window_dict["Primary"].plot_reference.setData(
-        self.viewer_original_signal.time, self.viewer_original_signal.magnitude, pen=self.pen)
-
-    self.pen = pg.mkPen(color=(255, 0, 0), width=0)
-    self.plotter_window_dict["Primary2"].plot_reference.setData(
+        self.pen = pg.mkPen(color=(255, 0, 0), width=0)
+        self.plotter_window_dict["Primary2"].plot_reference.setData(
         self.resampled_time, self.resampled_magnitude, symbol='o', pen=self.pen)
 
-    self.pen = pg.mkPen(color=(0, 200, 0), width=2)
-    self.plotter_window_dict["Primary3"].plot_reference.setData(
-        self.viewer_original_signal.time, self.new, pen=self.pen)
+        self.pen = pg.mkPen(color=(0, 200, 0), width=2)
+        # self.plotter_window_dict["Primary3"].plot_reference.setData(
+        #self.viewer_original_signal.time, self.new, pen=self.pen)
 
-    self.plotter_window_dict["Secondary"].plot_reference.setData(
-        self.viewer_original_signal.time, self.new, pen=self.pen)
+        self.plotter_window_dict["Secondary"].plot_reference.setData( self.viewer_original_signal.time, self.new, pen=self.pen)
 
 
 def sinc_interp(x, s, u):
@@ -129,3 +132,4 @@ def delete_primary_secondary(self):
 
     QtWidgets.QMessageBox.information(
         self, 'Deleted', 'Your signal has been deleted')
+    self.graph_deleted=True
