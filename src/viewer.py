@@ -26,17 +26,18 @@ def move_to_viewer(self, Input):
         else:
             self.viewer_original_signal = Signal(
                 self.summed_signal.yAxis, self.summed_signal.xAxis, self.summed_signal.max_analog_frequency)
-
+            self.WindowTabs.setCurrentIndex(1)
     elif Input == "browse":
         self.viewer_original_signal = Signal(
             self.browsed_signal.magnitude_array, self.browsed_signal.time_array, self.browsed_signal.max_analog_frequency)
-
+        self.WindowTabs.setCurrentIndex(1)
     self.samplingSlider.setMaximum(
         3*(self.viewer_original_signal.max_analog_frequency))
 
     self.plotter_window_dict["Primary"].plot_reference.setData(
         self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
     self.graph_empty=False
+    self.graph_deleted=False
 
 
 # plot the browsed signal on the prim and sec screens
@@ -45,7 +46,7 @@ def move_to_viewer(self, Input):
     self.plotter_window_dict["Secondary"].plot_reference.setData(
         self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
 
-    self.WindowTabs.setCurrentIndex(1)
+    #self.WindowTabs.setCurrentIndex(1)
 # plot the browsed signal on the prim and sec screens
     # change
     # self.plotter_window_dict["Primary"].plot_reference.setData(self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
@@ -74,8 +75,8 @@ def change_sampling_rate(self, freqvalue):
     # TODO: Fix errors when there is no signal imported../ or signals are deleted
     # TODO: Fix the slider range to not sample below 2 because it causes errors
     if self.graph_deleted==True:
-        print('DELETED')
-             #QtWidgets.QMessageBox.warning( self, 'NO SIGNAL ', 'THE SIGNAL IS DELETED')
+    
+        QtWidgets.QMessageBox.warning( self, 'NO SIGNAL ', 'THE SIGNAL IS DELETED')
     elif self.graph_empty==True:
         QtWidgets.QMessageBox.warning( self, 'NO SIGAL ', 'NO SIGNAL IMPORTED')
     else:
@@ -115,21 +116,27 @@ def sinc_interp(x, s, u):
 
 
 def delete_primary_secondary(self):
-    # TODO: Doesnt delete the signal..
+    #once the signal deleted 
+    if self.graph_empty==True:
+        QtWidgets.QMessageBox.information(self, 'NO SIGNAL', 'NO SIGNAL TO DELETE')
+        
+    else:
+        # TODO: Doesnt delete the signal..
     # overwrite variables
-    self.browsed_signal = []
-    self.summed_signal = []
-    self.viewer_orginal_signal = []
-    self.interpolated_signal = []
-    self.resampled_time = []
-    self.resampled_magnitude = []
+         self.browsed_signal = []
+         self.summed_signal = []
+         self.viewer_orginal_signal = []
+         self.interpolated_signal = []
+         self.resampled_time = []
+         self.resampled_magnitude = []
 
-    # plots to be reinitialized
-    dict_keys = ["Primary", "Primary2", "Primary3", "Secondary"]
+        # plots to be reinitialized
+         dict_keys = ["Primary", "Primary2", "Primary3", "Secondary"]
 
-    for index in dict_keys:
-        self.plotter_window_dict[index].plot_reference.clear()
+         for index in dict_keys:
+             self.plotter_window_dict[index].plot_reference.clear()
 
-    QtWidgets.QMessageBox.information(
-        self, 'Deleted', 'Your signal has been deleted')
-    self.graph_deleted=True
+         QtWidgets.QMessageBox.information(
+             self, 'Deleted', 'Your signal has been deleted')
+         self.graph_deleted=True
+         self.graph_empty=True
