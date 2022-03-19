@@ -11,6 +11,8 @@ import viewer
 # interface globals
 CreatorSelectedIndex = 0
 ''' Sould be connected to the combobox on change'''
+ToggleSecondary = True
+''' If true then visible'''
 
 
 def init_connectors(self):
@@ -86,12 +88,12 @@ def init_connectors(self):
         lambda: viewer.delete_primary_secondary(self))
 #************************************************************************************#
     self.splitButton = self.findChild(QPushButton, "splitButton")
-    self.splitButton.clicked.connect(lambda: util.printDebug("not connected"))
+    self.splitButton.clicked.connect(lambda: viewer.toggle_secondary(self))
 
     # Sampling frequency control
     self.samplingSlider = self.findChild(QSlider, "samplingSlider")
     self.samplingSlider.valueChanged.connect(
-        lambda: viewer.change_sampling_rate(self,self.samplingSlider.value()))
+        lambda: viewer.change_sampling_rate(self, self.samplingSlider.value()))
 
     self.samplingLCD = self.findChild(QLCDNumber, "samplingLCD")
     self.samplingSlider.valueChanged.connect(

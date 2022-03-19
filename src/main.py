@@ -8,9 +8,6 @@ import numpy as np
 from classes import *
 import interface
 import utility as util
-import openfile
-import viewer
-from scipy import signal
 import composer
 
 
@@ -42,23 +39,26 @@ class MainWindow(QtWidgets.QMainWindow):
 
         interface.init_connectors(self)
         util.printDebug(
-            "this should be our print function (DONT USE THE STANDARD print() )")
+            "Connectors Initialized")
 
         # initialize graph objects array/dict
         self.plotter_window_dict = {"Primary": PlotterWindow(self.primaryPlot.plot()),
-                                    "Sinusoid": PlotterWindow(self.sinusoidalSignal.plot()),
+                                    "Primary2": PlotterWindow(self.primaryPlot.plot()),
+                                    "Primary3": PlotterWindow(self.primaryPlot.plot()),
                                     "Secondary": PlotterWindow(self.reconstructedPlot.plot()),
-                                    "Summed": PlotterWindow(self.summedSignal.plot()),
-                                    "Primary2": PlotterWindow(self.primaryPlot.plot())
+                                    "Sinusoid": PlotterWindow(self.sinusoidalSignal.plot()),
+                                    "Summed": PlotterWindow(self.summedSignal.plot())
                                     }
+        ''' 
+        Primary is the original signal\n
+        Primary2 is the resampled points \n
+        Primary3 is the upsampled/interpolated signal\n
+        '''
+
+        util.printDebug(
+            "Plotters Initialized")
 
         composer.plotSinusoidal(self)
-
-        # testing graph objects THIS IS AN EXAMPLE :)
-        #xAxis = np.linspace(0, np.pi * 2, 200)
-        #yAxis = np.sin(xAxis)
-        # self.plotter_window_dict["Sinusoid"].plot_reference.setData(
-        #    xAxis, yAxis)
 
 
 def main():

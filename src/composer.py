@@ -89,11 +89,15 @@ def addSinusoidal(self):
         
         # Edit existing sine
     else:
-        self.sinusoid_creator_array[self.sinusoid_index].frequency = self.frequencySlider.value()
-        self.sinusoid_creator_array[self.sinusoid_index].magnitude = self.magnitudeSlider.value()
-        self.sinusoid_creator_array[self.sinusoid_index].phaseshift = self.phaseSlider.value()
+        self.sinusoid_creator_array[self.sinusoid_index].frequency = self.frequencySlider.value(
+        )
+        self.sinusoid_creator_array[self.sinusoid_index].magnitude = self.magnitudeSlider.value(
+        )
+        self.sinusoid_creator_array[self.sinusoid_index].phaseshift = self.phaseSlider.value(
+        )
         xAxis = np.linspace(0, np.pi * 2, 200)
-        self.sinusoid_creator_array[self.sinusoid_index].yAxis = self.magnitudeSlider.value() * np.sin((xAxis * self.frequencySlider.value()) + self.phaseSlider.value())
+        self.sinusoid_creator_array[self.sinusoid_index].yAxis = self.magnitudeSlider.value(
+        ) * np.sin((xAxis * self.frequencySlider.value()) + self.phaseSlider.value())
     sumSinusoids(self)
     self.signalsMenu.setCurrentIndex(len(self.sinusoid_creator_array))
 
@@ -124,12 +128,9 @@ def sumSinusoids(self):
         clearSinusoidal(self)
 
 
-
-
 def clearComposer(self):
     clearSinusoidal(self)
     self.sinusoid_creator_array = []
     self.signalsMenu.clear()
     self.sinusoid_number = 1
     self.signalsMenu.addItem("Signal " + str(self.sinusoid_number))
-
