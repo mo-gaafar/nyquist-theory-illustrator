@@ -10,7 +10,7 @@ import composer
 
 
 DEBUG_MODE = True
-MAX_SAMPLES = 200
+MAX_SAMPLES = 1000
 
 
 class MainWindow(QtWidgets.QMainWindow):
