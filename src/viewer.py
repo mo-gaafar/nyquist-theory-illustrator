@@ -70,9 +70,9 @@ def change_sampling_rate(self, freqvalue):
 
     if self.graph_deleted == True:
         QtWidgets.QMessageBox.warning(
-            self, 'NO SIGNAL ', 'THE SIGNAL IS DELETED')
+            self, 'NO SIGNAL ', 'The signal is deleted')
     elif self.graph_empty == True:
-        QtWidgets.QMessageBox.warning(self, 'NO SINGAL ', 'NO SIGNAL IMPORTED')
+        QtWidgets.QMessageBox.warning(self, 'NO SINGAL ', 'No signal imported')
 
     else:
 
@@ -82,7 +82,6 @@ def change_sampling_rate(self, freqvalue):
         self.resampled_magnitude = np.array(returned_tuple[1])
         self.resampled_time = np.array(returned_tuple[0])
 
-        print("returned tuple " + str(len(self.resampled_magnitude)))
 
         # sinc interpolation
         self.interpolated_magnitude = sinc_interpolation(
@@ -147,7 +146,7 @@ def delete_primary_secondary(self):
     # once the signal deleted
     if self.graph_empty == True:
         QtWidgets.QMessageBox.information(
-            self, 'NO SIGNAL', 'NO SIGNAL TO DELETE')
+            self, 'NO SIGNAL', 'No signal to delete')
 
     else:
         # overwrite variables
