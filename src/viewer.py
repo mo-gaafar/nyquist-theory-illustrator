@@ -4,11 +4,8 @@
 3. updates the graph when the '''
 
 import numpy as np
-from numpy.core.records import array
-from numpy.testing._private.utils import assert_array_max_ulp
 from classes import *
 import interface
-from scipy import signal
 from PyQt5 import QtWidgets, QtCore
 import pyqtgraph as pg
 
@@ -35,15 +32,17 @@ def move_to_viewer(self, Input):
                 self.summed_signal.yAxis, self.summed_signal.xAxis, self.summed_signal.max_analog_frequency)
             self.WindowTabs.setCurrentIndex(1)
     elif Input == "browse":
-        
+
         self.viewer_original_signal = Signal(
             self.browsed_signal.magnitude_array, self.browsed_signal.time_array, self.browsed_signal.max_analog_frequency)
         self.WindowTabs.setCurrentIndex(1)
-        self.viewer_original_signal.get_max_frequency()#updates max frequency using fft
+        self.viewer_original_signal.get_max_frequency()  # updates max frequency using fft
 
+    # update slider maximum
     self.samplingSlider.setMaximum(
         3*(self.viewer_original_signal.max_analog_frequency))
 
+    # initialize plots
     self.plotter_window_dict["Primary"].plot_reference.setData(
         self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
 
@@ -119,12 +118,9 @@ def sinc_interpolation(input_magnitude, input_time, original_time):
         # T = max(input_time) / len(input_time)
         T = input_time[1] - input_time[0]
 
-    # intermediate variable
-    input_time_newaxis = input_time[:, np.newaxis]
-
     # the equation
     sincM = np.tile(original_time, (len(input_time), 1)) - \
-        np.tile(input_time_newaxis, (1, len(original_time)))
+        np.tile(input_time[:, np.newaxis], (1, len(original_time)))
     output_magnitude = np.dot(input_magnitude, np.sinc(sincM/T))
     return output_magnitude
 
