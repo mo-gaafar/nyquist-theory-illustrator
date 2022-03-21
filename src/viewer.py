@@ -4,11 +4,14 @@
 3. updates the graph when the '''
 
 import numpy as np
+from numpy.core.records import array
+from numpy.testing._private.utils import assert_array_max_ulp
 from classes import *
 import interface
 from scipy import signal
 from PyQt5 import QtWidgets, QtCore
 import pyqtgraph as pg
+from scipy.interpolate import interp1d
 
 def control_viewer(self):
     ''' Control the transition from composer to viewer'''
@@ -70,10 +73,16 @@ def change_sampling_rate(self, freqvalue):
         QtWidgets.QMessageBox.warning( self, 'NO SIGAL ', 'NO SIGNAL IMPORTED')
     else:
         
-        self.resampled_magnitude = signal.resample( x=self.viewer_original_signal.magnitude, num=freqvalue)
-        self.resampled_time = np.linspace(0, self.viewer_original_signal.time[len( self.viewer_original_signal.time)-1], freqvalue, endpoint=False)
+        returned_tuple = ()
+        returned_tuple= downsample( self.viewer_original_signal.time, self.viewer_original_signal.magnitude, freqvalue)
+        self.resampled_magnitude = list(returned_tuple[1])
+        self.resampled_time = list(returned_tuple[0])
 
-        self.interpolated_magnitude = sinc_interp(self.resampled_magnitude, self.resampled_time, self.viewer_original_signal.time)
+        print("returned tuple" + str(len(self.resampled_magnitude)))
+        
+        #self.resampled_time = np.linspace(0, self.viewer_original_signal.time[len( self.viewer_original_signal.time)-1], freqvalue, endpoint=False)
+
+        #self.interpolated_magnitude = sinc_interpolation(self.resampled_magnitude, self.resampled_time, self.viewer_original_signal.time)
 
         self.pen = pg.mkPen(color=(150, 150, 150), width=2,style=QtCore.Qt.DotLine)
         self.plotter_window_dict["Primary"].plot_reference.setData(    self.viewer_original_signal.time, self.viewer_original_signal.magnitude, pen=self.pen)
@@ -85,13 +94,13 @@ def change_sampling_rate(self, freqvalue):
         self.resampled_time, self.resampled_magnitude, symbol='o', pen=self.pen)
 
         self.pen = pg.mkPen(color=(0, 200, 0), width=2)
-        self.plotter_window_dict["Primary3"].plot_reference.setData(
-        self.viewer_original_signal.time, self.interpolated_magnitude, pen=self.pen)
+        #self.plotter_window_dict["Primary3"].plot_reference.setData(
+        #self.viewer_original_signal.time, self.interpolated_magnitude, pen=self.pen)
 
         self.plotter_window_dict["Secondary"].plot_reference.setData( self.viewer_original_signal.time, self.interpolated_magnitude, pen=self.pen)
 
 
-def sinc_interp(input_magnitude, input_time, original_time):
+def sinc_interpolation(input_magnitude, input_time, original_time):
     
     
     if len(input_magnitude) != len(input_time):
@@ -104,6 +113,22 @@ def sinc_interp(input_magnitude, input_time, original_time):
     output_magnitude = np.dot(input_magnitude, np.sinc(sincM/T))
     return output_magnitude
 
+
+def downsample(array_x,array_y, frequency):
+    '''Returns a tuple containting downsampled (array_x, array_y) '''
+   
+    resampled_x = []
+    resampled_y = []
+
+    max_sampling_frequency = len(array_x)/max(array_x) #divide total samples over maximum time to get 1/period
+    length = len(array_x)
+    step = round(max_sampling_frequency/frequency)
+
+    for index in range(0, length, step):
+        resampled_x.append(array_x[index])
+        resampled_y.append(array_y[index])
+
+    return (resampled_x, resampled_y)
 
 def delete_primary_secondary(self):
     #once the signal deleted 

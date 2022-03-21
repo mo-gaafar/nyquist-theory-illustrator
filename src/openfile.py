@@ -7,7 +7,6 @@ import csv
 import numpy as np
 
 from main import MAX_SAMPLES
-import viewer
 
 
 def browse_window(self):

@@ -1,4 +1,4 @@
-
+from scipy import fft
 import numpy as np
 
 class Sinusoid():
@@ -71,6 +71,13 @@ class SampledSignal():
     def generate_time_array(self):
         for index in range(self.total_samples):
             self.time_array.append(index/self.sampling_frequency)
+
+    def get_max_frequency(self):
+        #array = np.abs(fft.rfft(self.magnitude_array))
+        #frequency = max(array)
+
+        
+        return frequency
     
 
 
