@@ -1,5 +1,5 @@
 
-from PyQt5.QtWidgets import  QTabWidget, QAction, QPushButton, QSlider, QComboBox, QLCDNumber
+from PyQt5.QtWidgets import QTabWidget, QAction, QPushButton, QSlider, QComboBox, QLCDNumber ,QMessageBox
 from PyQt5.QtGui import *
 import composer
 import openfile
@@ -19,6 +19,14 @@ def init_connectors(self):
     self.actionOpen.triggered.connect(
         lambda: openfile.browse_window(self))
 
+    self.actionExport = self.findChild(QAction, "actionExport")
+    self.actionExport.triggered.connect(
+        lambda: openfile.export_summed_signal(self))
+    
+    self.actionAbout_Us = self.findChild(QAction, "actionAbout_Us")
+    self.actionAbout_Us.triggered.connect(
+        lambda: about_us(self))    
+
     self.WindowTabs = self.findChild(QTabWidget, "WindowTabs")
 
     ''' Composer Tab'''
@@ -31,8 +39,7 @@ def init_connectors(self):
     self.addSineButton = self.findChild(QPushButton, "addSineButton")
     self.addSineButton.clicked.connect(
         lambda: composer.addSinusoidal(self))
-    # self.addSineButton.clicked.connect(
-    #    lambda: composer.plotSinusoidal(self))
+  
 
     self.deleteSineButton = self.findChild(QPushButton, "deleteSineButton")
     self.deleteSineButton.hide()
@@ -87,9 +94,16 @@ def init_connectors(self):
 
     # Sampling frequency control
     self.samplingSlider = self.findChild(QSlider, "samplingSlider")
+    self.samplingSlider.setMinimum(1)
     self.samplingSlider.valueChanged.connect(
         lambda: viewer.change_sampling_rate(self, self.samplingSlider.value()))
 
     self.samplingLCD = self.findChild(QLCDNumber, "samplingLCD")
     self.samplingSlider.valueChanged.connect(
         lambda: self.samplingLCD.display(self.samplingSlider.value()))
+
+
+
+def about_us(self):
+    QMessageBox.about(
+            self, ' About ', 'This is a nyquist theory illustrator \nCreated by junior students from the faculty of Engineering, Cairo Uniersity, Systems and Biomedical Engineering department \n \nTeam members: \n-Mohammed Nasser \n-Abdullah Saeed \n-Zeyad Mansour \n-Mariam Khaled \n \nhttps://github.com/mo-gaafar/Nyquist_Theory_Illustrator.git ')

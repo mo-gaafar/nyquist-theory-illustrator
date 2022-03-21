@@ -1,6 +1,7 @@
-import main
+
+DEBUG_MODE = True
 
 
 def printDebug(Value):  # Enabled when global debug mode is on
-    if main.DEBUG_MODE == 1:
+    if DEBUG_MODE == 1:
         print(Value)

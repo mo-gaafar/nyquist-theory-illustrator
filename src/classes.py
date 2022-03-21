@@ -1,5 +1,11 @@
-
+from scipy import fft
 import numpy as np
+
+from utility import printDebug
+
+# GLOBAL CONSTANTS
+MAX_SAMPLES = 3000
+
 
 class Sinusoid():
     ''' One sinusoid function object'''
@@ -11,8 +17,9 @@ class Sinusoid():
         self.frequency = frequency
         self.sin_or_cos = sin_or_cos
         self._is_added = _is_added
-        self.xAxis = np.linspace(0, np.pi * 2, 200)
-        self.yAxis = self.magnitude * np.sin((self.xAxis * self.frequency) + self.phaseshift)
+        self.xAxis = np.linspace(0, np.pi * 2, MAX_SAMPLES)
+        self.yAxis = self.magnitude * \
+            np.sin((self.xAxis * self.frequency) + self.phaseshift)
 
         # self.np_object = self.generate_np_object()
     def __add__(self, sinusoid2):
@@ -35,7 +42,7 @@ class SummedSinusoid():
         self.max_analog_frequency = 1
         self.xAxis = []
         self.yAxis = []
-        
+
         if len(sinusoid_array) > 0:
             self.xAxis = sinusoid_array[0].xAxis  # TODO: think of a better way
             yAxis_sum = sinusoid_array[0].yAxis
@@ -43,18 +50,19 @@ class SummedSinusoid():
             if len(sinusoid_array) > 1:
                 for index in range(len(self.sinusoid_array)):
                     if index != 0:
-                        yAxis_sum = yAxis_sum + self.sinusoid_array[index].yAxis
+                        yAxis_sum = yAxis_sum + \
+                            self.sinusoid_array[index].yAxis
             self.yAxis = yAxis_sum
-            self.max_analog_frequency = self._get_max_frequency()
+            self.max_analog_frequency = self._get_max_frequency_hz()
 
-    def _get_max_frequency(self):
+    def _get_max_frequency_hz(self):
         ''' written because I dont know how to get max of an array of object attributes '''
         maxfrequency = -999
         for item in self.sinusoid_array:
             if item.frequency > maxfrequency:
                 maxfrequency = item.frequency
 
-        return maxfrequency
+        return maxfrequency/(2*np.pi)
 
 
 class SampledSignal():
@@ -71,16 +79,37 @@ class SampledSignal():
     def generate_time_array(self):
         for index in range(self.total_samples):
             self.time_array.append(index/self.sampling_frequency)
-    
 
 
 class Signal():
     '''An object containing the generic signal'''
-    def __init__(self, magnitude = [], time = [] , max_analog_frequency = 1):
-        self.magnitude= magnitude
-        self.time= time
-        self.max_analog_frequency= max_analog_frequency
-    
+
+    def __init__(self, magnitude=[], time=[], max_analog_frequency=1):
+        self.magnitude = magnitude
+        self.time = time
+        self.max_analog_frequency = max_analog_frequency
+
+    def get_max_frequency(self):
+
+        sample_period = self.time[1] - self.time[0]
+        n_samples = len(self.time)
+
+        # gets array of fft magnitudes
+        fft_magnitudes = np.abs(fft.fft(self.magnitude))
+        # gets array of frequencies
+        fft_frequencies = fft.fftfreq(n_samples, sample_period)
+        # create new "clean array" of frequencies
+        fft_clean_frequencies_array = []
+        for index in range(len(fft_frequencies)):
+            # checks if signigifcant frequency is present
+            if fft_magnitudes[index] > 1:
+                fft_clean_frequencies_array.append(fft_frequencies[index])
+
+        # get the last element and equate with max_frequency
+        self.max_analog_frequency = max(fft_clean_frequencies_array)
+
+        printDebug("Max frequency fft: " + str(self.max_analog_frequency))
+        return self.max_analog_frequency
 
 
 class PlotterWindow():
@@ -88,7 +117,7 @@ class PlotterWindow():
 
     def __init__(self, plot_reference,  x_start=0, x_end=1, y_start=-1, y_end=1):
         self.plot_reference = plot_reference
-        
+
         self.x_range_tuple = (x_start, x_end)
         self.y_range_tuple = (y_start, y_end)
 

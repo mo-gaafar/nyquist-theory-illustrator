@@ -838,8 +838,16 @@ color: rgb(255, 255, 255);</string>
      <string>File</string>
     </property>
     <addaction name="actionOpen"/>
+    <addaction name="actionExport"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout_Us"/>
    </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
@@ -849,6 +857,24 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Open</string>
+   </property>
+  </action>
+  <action name="actionExport">
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/Data-Export-256.png</normaloff>icons/Data-Export-256.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </action>
+  <action name="actionAbout_Us">
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/Help-256.png</normaloff>icons/Help-256.png</iconset>
+   </property>
+   <property name="text">
+    <string>About Us</string>
    </property>
   </action>
  </widget>
