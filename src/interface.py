@@ -1,5 +1,5 @@
 
-from PyQt5.QtWidgets import  QTabWidget, QAction, QPushButton, QSlider, QComboBox, QLCDNumber
+from PyQt5.QtWidgets import QTabWidget, QAction, QPushButton, QSlider, QComboBox, QLCDNumber
 from PyQt5.QtGui import *
 import composer
 import openfile
@@ -87,6 +87,7 @@ def init_connectors(self):
 
     # Sampling frequency control
     self.samplingSlider = self.findChild(QSlider, "samplingSlider")
+    self.samplingSlider.setMinimum(1)
     self.samplingSlider.valueChanged.connect(
         lambda: viewer.change_sampling_rate(self, self.samplingSlider.value()))
 

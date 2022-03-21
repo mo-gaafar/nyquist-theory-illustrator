@@ -18,39 +18,43 @@ Leftmost graph
 import numpy as np
 import classes
 import utility as util
+from classes import MAX_SAMPLES
 
 
 # PLOTS THE SELECTED SINE IN SMALL COMPOSER WINDOW
 def plotSinusoidal(self):
-    
+
     # Get sliders values
     freq = self.frequencySlider.value()
     mag = self.magnitudeSlider.value()
     phase = self.phaseSlider.value()
-    
+
     # Set axes and plot
-    xAxis = np.linspace(0, np.pi * 2, 200)
+    xAxis = np.linspace(0, np.pi * 2, MAX_SAMPLES)
     yAxis = mag * np.sin((xAxis * freq) + phase)
-    pi_labels = [(0, 0), (np.pi / 2, "π/2"), (np.pi, "π"), (3 * np.pi / 2, "3π/2"), (np.pi * 2, "2π")]
+    pi_labels = [(0, 0), (np.pi / 2, "π/2"), (np.pi, "π"),
+                 (3 * np.pi / 2, "3π/2"), (np.pi * 2, "2π")]
     self.plotter_window_dict["Sinusoid"].plot_reference.setData(
         xAxis, yAxis)
-    ax=self.sinusoidalSignal.getAxis('bottom')
+    ax = self.sinusoidalSignal.getAxis('bottom')
     ax.setTicks([pi_labels])
 
-
     # CLEARS SINE PLOT WINDOW
+
+
 def clearSinusoidal(self):
-    xAxis = np.linspace(0, np.pi * 0, 200)
+    xAxis = np.linspace(0, np.pi * 0, MAX_SAMPLES)
     yAxis = np.sin(xAxis)
     self.plotter_window_dict["Summed"].plot_reference.setData(xAxis, yAxis)
 
-
     # CALLED WHEN MENU INDEX CHANGES TO UPDATE COMPOSER DATA
+
+
 def updateSinusoid(self, input):
     self.sinusoid_index = input
 
     # Set slider values to appropriate positions when user selects already added signal
-    if len(self.sinusoid_creator_array) !=0:
+    if len(self.sinusoid_creator_array) != 0:
         if self.sinusoid_index < len(self.sinusoid_creator_array):
             self.frequencySlider.setValue(
                 self.sinusoid_creator_array[self.sinusoid_index].frequency)
@@ -72,8 +76,9 @@ def updateSinusoid(self, input):
         self.deleteSineButton.hide()
     plotSinusoidal(self)
 
-
     # ADDS GENERATED SINE TO SUMMER
+
+
 def addSinusoidal(self):
 
     # Add new sine
@@ -82,7 +87,7 @@ def addSinusoidal(self):
         ), phaseshift=self.phaseSlider.value(), frequency=self.frequencySlider.value()))
         self.sinusoid_number += 1
         self.signalsMenu.addItem("Signal " + str(self.sinusoid_number))
-        
+
         # Edit existing sine
     else:
         self.sinusoid_creator_array[self.sinusoid_index].frequency = self.frequencySlider.value(
@@ -91,13 +96,15 @@ def addSinusoidal(self):
         )
         self.sinusoid_creator_array[self.sinusoid_index].phaseshift = self.phaseSlider.value(
         )
-        xAxis = np.linspace(0, np.pi * 2, 200)
+        xAxis = np.linspace(0, np.pi * 2, MAX_SAMPLES)
         self.sinusoid_creator_array[self.sinusoid_index].yAxis = self.magnitudeSlider.value(
         ) * np.sin((xAxis * self.frequencySlider.value()) + self.phaseSlider.value())
     sumSinusoids(self)
     self.signalsMenu.setCurrentIndex(len(self.sinusoid_creator_array))
 
-#TODO : if there is no signal an error message appears 
+# TODO : if there is no signal an error message appears
+
+
 def deleteSinusoidal(self):
     self.sinusoid_creator_array.pop(self.sinusoid_index)
     self.signalsMenu.removeItem(self.sinusoid_index)
@@ -105,16 +112,17 @@ def deleteSinusoidal(self):
 
 
 def sumSinusoids(self):
-    xAxis = np.linspace(0, np.pi * 2, 200)
+    xAxis = np.linspace(0, np.pi * 2, MAX_SAMPLES)
 
     # Create SummedSinusoid object with array of sinusoids where they get summed
     if len(self.sinusoid_creator_array) > 0:
         self.summed_signal = classes.SummedSinusoid(
             self.sinusoid_creator_array)
-        pi_labels = [(0, 0), (np.pi / 2, "π/2"), (np.pi, "π"), (3 * np.pi / 2, "3π/2"), (np.pi * 2, "2π")]
+        pi_labels = [(0, 0), (np.pi / 2, "π/2"), (np.pi, "π"),
+                     (3 * np.pi / 2, "3π/2"), (np.pi * 2, "2π")]
         self.plotter_window_dict["Summed"].plot_reference.setData(
             xAxis, self.summed_signal.yAxis)
-        ax=self.summedSignal.getAxis('bottom')
+        ax = self.summedSignal.getAxis('bottom')
         ax.setTicks([pi_labels])
         util.printDebug("Max analog freq component: " +
                         str(self.summed_signal.max_analog_frequency))

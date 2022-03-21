@@ -1,16 +1,13 @@
 # please for the love of god https://namingconvention.org/python/ use the pythonic naming convention here
 
-from PyQt5 import QtGui, QtWidgets, uic
-import sys
 
 from classes import *
-import interface
-import utility as util
 import composer
+import utility as util
+import interface
 
-
-DEBUG_MODE = True
-MAX_SAMPLES = 1000
+import sys
+from PyQt5 import QtGui, QtWidgets, uic
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -26,10 +23,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon('./data/icons/icon.png'))
         self.setWindowTitle("Nyquist Theory Illustrator")
 
-        #for deleted graph/Empty Graph
-        self.graph_deleted=False
-        self.graph_empty=True
-
+        # for deleted graph/Empty Graph
+        self.graph_deleted = False
+        self.graph_empty = True
 
        # initialize arrays and variables
         self.sinusoid_creator_array = []

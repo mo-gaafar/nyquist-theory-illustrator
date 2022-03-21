@@ -5,8 +5,9 @@ from PyQt5.QtWidgets import QFileDialog
 import wfdb
 import csv
 import numpy as np
+import viewer
 
-from main import MAX_SAMPLES
+from classes import MAX_SAMPLES
 
 
 def browse_window(self):

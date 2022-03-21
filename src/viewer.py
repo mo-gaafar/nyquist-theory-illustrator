@@ -11,7 +11,7 @@ import interface
 from scipy import signal
 from PyQt5 import QtWidgets, QtCore
 import pyqtgraph as pg
-from scipy.interpolate import interp1d
+
 
 def control_viewer(self):
     ''' Control the transition from composer to viewer'''
@@ -19,7 +19,7 @@ def control_viewer(self):
         QtWidgets.QMessageBox.warning(
             self, 'NO SIGNAL ', 'You have to plot a signal first')
     else:
-        move_to_viewer(self,Input="composer")
+        move_to_viewer(self, Input="composer")
 
 
 def move_to_viewer(self, Input):
@@ -43,11 +43,11 @@ def move_to_viewer(self, Input):
 
     self.plotter_window_dict["Primary"].plot_reference.setData(
         self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
-    
+
     self.plotter_window_dict["Secondary"].plot_reference.setData(
         self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
-    self.graph_empty=False
-    self.graph_deleted=False
+    self.graph_empty = False
+    self.graph_deleted = False
 
 
 def toggle_secondary(self):
@@ -63,64 +63,77 @@ def toggle_secondary(self):
 
 def change_sampling_rate(self, freqvalue):
 
-    if freqvalue <2:
-        freqvalue=2
+    if freqvalue == 0:  # TODO: implement within functions
+        freqvalue = 1
 
-    if self.graph_deleted==True:
-    
-        QtWidgets.QMessageBox.warning( self, 'NO SIGNAL ', 'THE SIGNAL IS DELETED')
-    elif self.graph_empty==True:
-        QtWidgets.QMessageBox.warning( self, 'NO SIGAL ', 'NO SIGNAL IMPORTED')
+    if self.graph_deleted == True:
+        QtWidgets.QMessageBox.warning(
+            self, 'NO SIGNAL ', 'THE SIGNAL IS DELETED')
+    elif self.graph_empty == True:
+        QtWidgets.QMessageBox.warning(self, 'NO SINGAL ', 'NO SIGNAL IMPORTED')
+
     else:
-        
+
         returned_tuple = ()
-        returned_tuple= downsample( self.viewer_original_signal.time, self.viewer_original_signal.magnitude, freqvalue)
-        self.resampled_magnitude = list(returned_tuple[1])
-        self.resampled_time = list(returned_tuple[0])
+        returned_tuple = downsample(
+            self.viewer_original_signal.time, self.viewer_original_signal.magnitude, freqvalue)
+        self.resampled_magnitude = np.array(returned_tuple[1])
+        self.resampled_time = np.array(returned_tuple[0])
 
-        print("returned tuple" + str(len(self.resampled_magnitude)))
-        
-        #self.resampled_time = np.linspace(0, self.viewer_original_signal.time[len( self.viewer_original_signal.time)-1], freqvalue, endpoint=False)
+        print("returned tuple " + str(len(self.resampled_magnitude)))
 
-        #self.interpolated_magnitude = sinc_interpolation(self.resampled_magnitude, self.resampled_time, self.viewer_original_signal.time)
+        # sinc interpolation
+        self.interpolated_magnitude = sinc_interpolation(
+            self.resampled_magnitude, self.resampled_time, self.viewer_original_signal.time)
 
-        self.pen = pg.mkPen(color=(150, 150, 150), width=2,style=QtCore.Qt.DotLine)
-        self.plotter_window_dict["Primary"].plot_reference.setData(    self.viewer_original_signal.time, self.viewer_original_signal.magnitude, pen=self.pen)
+        # refresh all viewer graphs
+        self.pen = pg.mkPen(color=(150, 150, 150), width=2,
+                            style=QtCore.Qt.DotLine)
+        self.plotter_window_dict["Primary"].plot_reference.setData(
+            self.viewer_original_signal.time, self.viewer_original_signal.magnitude, pen=self.pen)
 
-
-       
         self.pen = pg.mkPen(color=(0, 200, 0), width=0)
         self.plotter_window_dict["Primary2"].plot_reference.setData(
-        self.resampled_time, self.resampled_magnitude, symbol='o', pen=self.pen)
+            self.resampled_time, self.resampled_magnitude, symbol='o', pen=self.pen)
 
         self.pen = pg.mkPen(color=(0, 200, 0), width=2)
-        #self.plotter_window_dict["Primary3"].plot_reference.setData(
-        #self.viewer_original_signal.time, self.interpolated_magnitude, pen=self.pen)
+        self.plotter_window_dict["Primary3"].plot_reference.setData(
+            self.viewer_original_signal.time, self.interpolated_magnitude, pen=self.pen)
 
-        self.plotter_window_dict["Secondary"].plot_reference.setData( self.viewer_original_signal.time, self.interpolated_magnitude, pen=self.pen)
+        self.plotter_window_dict["Secondary"].plot_reference.setData(
+            self.viewer_original_signal.time, self.interpolated_magnitude, pen=self.pen)
 
 
 def sinc_interpolation(input_magnitude, input_time, original_time):
-    
-    
+    '''Whittaker Shannon interpolation formula linked here:
+      https://en.wikipedia.org/wiki/Whittaker%E2%80%93Shannon_interpolation_formula '''
+
     if len(input_magnitude) != len(input_time):
         print('not same')
 
     # Find the period
-    T = input_time[1] - input_time[0]
+    if len(input_time) != 0:
+        # T = max(input_time) / len(input_time)
+        T = input_time[1] - input_time[0]
 
-    sincM = np.tile(original_time, (len(input_time), 1)) - np.tile(input_time[:, np.newaxis], (1, len(original_time)))
+    # intermediate variable
+    input_time_newaxis = input_time[:, np.newaxis]
+
+    # the equation
+    sincM = np.tile(original_time, (len(input_time), 1)) - \
+        np.tile(input_time_newaxis, (1, len(original_time)))
     output_magnitude = np.dot(input_magnitude, np.sinc(sincM/T))
     return output_magnitude
 
 
-def downsample(array_x,array_y, frequency):
+def downsample(array_x, array_y, frequency):
     '''Returns a tuple containting downsampled (array_x, array_y) '''
-   
+
     resampled_x = []
     resampled_y = []
 
-    max_sampling_frequency = len(array_x)/max(array_x) #divide total samples over maximum time to get 1/period
+    # divide total samples over maximum time to get 1/period
+    max_sampling_frequency = len(array_x)/max(array_x)
     length = len(array_x)
     step = round(max_sampling_frequency/frequency)
 
@@ -128,29 +141,31 @@ def downsample(array_x,array_y, frequency):
         resampled_x.append(array_x[index])
         resampled_y.append(array_y[index])
 
-    return (resampled_x, resampled_y)
+    return resampled_x, resampled_y
+
 
 def delete_primary_secondary(self):
-    #once the signal deleted 
-    if self.graph_empty==True:
-        QtWidgets.QMessageBox.information(self, 'NO SIGNAL', 'NO SIGNAL TO DELETE')
-        
+    # once the signal deleted
+    if self.graph_empty == True:
+        QtWidgets.QMessageBox.information(
+            self, 'NO SIGNAL', 'NO SIGNAL TO DELETE')
+
     else:
-    # overwrite variables
-         #self.browsed_signal = []
-         #self.summed_signal = []
-         self.viewer_orginal_signal = []
-         self.interpolated_signal = []
-         self.resampled_time = []
-         self.resampled_magnitude = []
+        # overwrite variables
+        #self.browsed_signal = []
+        #self.summed_signal = []
+        self.viewer_orginal_signal = []
+        self.interpolated_signal = []
+        self.resampled_time = []
+        self.resampled_magnitude = []
 
-        # plots to be reinitialized
-         dict_keys = ["Primary", "Primary2", "Primary3", "Secondary"]
+    # plots to be reinitialized
+        dict_keys = ["Primary", "Primary2", "Primary3", "Secondary"]
 
-         for index in dict_keys:
-             self.plotter_window_dict[index].plot_reference.clear()
+        for index in dict_keys:
+            self.plotter_window_dict[index].plot_reference.clear()
 
-         QtWidgets.QMessageBox.information(
-             self, 'Deleted', 'Your signal has been deleted')
-         self.graph_deleted=True
-         self.graph_empty=True
+        QtWidgets.QMessageBox.information(
+            self, 'Deleted', 'Your signal has been deleted')
+        self.graph_deleted = True
+        self.graph_empty = True
