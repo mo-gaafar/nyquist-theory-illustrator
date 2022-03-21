@@ -63,9 +63,14 @@ def open_file(self, path):
 
 def export_summed_signal(self):
     '''Saves the summed signal as csv file'''
-    FolderPath = QFileDialog.getSaveFileName(
-        None, str('Save the summed signal'), None, str("CSV FIles(*.csv)"))
-    CSVfile = pyqtgraph.exporters.CSVExporter(self.summedSignal.plotItem)
-    CSVfile.export(str(FolderPath[0]))
-    QMessageBox.warning(
-        self, 'Complete ', 'The csv was exported successfuly at: \n ' + str(FolderPath[0]))
+    if len(self.sinusoid_creator_array) == 0:
+        QMessageBox.warning(
+            self, 'NO SIGNAL ', 'You have to plot a signal first')
+    else:
+        FolderPath = QFileDialog.getSaveFileName(
+            None, str('Save the summed signal'), None, str("CSV FIles(*.csv)"))
+        CSVfile = pyqtgraph.exporters.CSVExporter(self.summedSignal.plotItem)
+        CSVfile.export(str(FolderPath[0]))
+        QMessageBox.information(
+            self, 'Complete ', 'The csv was exported successfuly at: \n ' + str(FolderPath[0]))
+

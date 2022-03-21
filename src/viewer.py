@@ -8,7 +8,7 @@ from classes import *
 import interface
 from PyQt5 import QtWidgets, QtCore
 import pyqtgraph as pg
-import openfile
+
 
 
 def control_viewer(self):
@@ -25,13 +25,10 @@ def move_to_viewer(self, Input):
     if Input == "composer":
         # plot summed signal on primary and secondary screens (DONE)
         # we need to get  the summed signal (DONE)
-        if len(self.sinusoid_creator_array) < 1:
-            QtWidgets.QMessageBox.warning(
-                self, 'NO SIGNAL ', 'You have to plot a signal first')
-        else:
-            self.viewer_original_signal = Signal(
-                self.summed_signal.yAxis, self.summed_signal.xAxis, self.summed_signal.max_analog_frequency)
-            self.WindowTabs.setCurrentIndex(1)
+        
+        self.viewer_original_signal = Signal(
+            self.summed_signal.yAxis, self.summed_signal.xAxis, self.summed_signal.max_analog_frequency)
+        self.WindowTabs.setCurrentIndex(1)
     elif Input == "browse":
 
         self.viewer_original_signal = Signal(
@@ -150,8 +147,7 @@ def delete_primary_secondary(self):
 
     else:
         # overwrite variables
-        #self.browsed_signal = []
-        #self.summed_signal = []
+       
         self.viewer_orginal_signal = []
         self.interpolated_signal = []
         self.resampled_time = []
