@@ -21,6 +21,7 @@ csv, txt, xls, hea, dat, rec
 - utility
 - numpy
 - sys
+- pyqtgraph.exporters
 
 ## Preview
 
