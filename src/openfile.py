@@ -1,7 +1,7 @@
 # converts file path to SampledSignal object
 from classes import SampledSignal
 import utility as util
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import wfdb
 import csv
 import numpy as np
@@ -43,10 +43,10 @@ def open_file(self, path):
     if filetype == "csv" or filetype == "txt" or filetype == "xls":
         with open(path, 'r') as csvFile:    # 'r' its a mode for reading and writing
             csvReader = csv.reader(csvFile, delimiter=',')
-           
-            # neglect the first line in the csv file 
+
+            # neglect the first line in the csv file
             next(csvReader)
-           
+
             for line in csvReader:
                 if len(temp_arr_x) > MAX_SAMPLES:
                     break
@@ -64,6 +64,8 @@ def open_file(self, path):
 def export_summed_signal(self):
     '''Saves the summed signal as csv file'''
     FolderPath = QFileDialog.getSaveFileName(
-            None, str('Save the summed signal'), None, str("CSV FIles(*.csv)"))
+        None, str('Save the summed signal'), None, str("CSV FIles(*.csv)"))
     CSVfile = pyqtgraph.exporters.CSVExporter(self.summedSignal.plotItem)
-    CSVfile.export(str(FolderPath[0]))        
+    CSVfile.export(str(FolderPath[0]))
+    QMessageBox.warning(
+        self, 'Complete ', 'The csv was exported successfuly at: \n ' + str(FolderPath[0]))

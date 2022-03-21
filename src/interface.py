@@ -19,6 +19,10 @@ def init_connectors(self):
     self.actionOpen.triggered.connect(
         lambda: openfile.browse_window(self))
 
+    self.actionExport = self.findChild(QAction, "actionExport")
+    self.actionExport.triggered.connect(
+        lambda: openfile.export_summed_signal(self))
+
     self.WindowTabs = self.findChild(QTabWidget, "WindowTabs")
 
     ''' Composer Tab'''
