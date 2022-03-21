@@ -6,6 +6,7 @@ import wfdb
 import csv
 import numpy as np
 import viewer
+import pyqtgraph.exporters
 
 from classes import MAX_SAMPLES
 
@@ -42,6 +43,10 @@ def open_file(self, path):
     if filetype == "csv" or filetype == "txt" or filetype == "xls":
         with open(path, 'r') as csvFile:    # 'r' its a mode for reading and writing
             csvReader = csv.reader(csvFile, delimiter=',')
+           
+            # neglect the first line in the csv file 
+            next(csvReader)
+           
             for line in csvReader:
                 if len(temp_arr_x) > MAX_SAMPLES:
                     break
@@ -54,3 +59,11 @@ def open_file(self, path):
         self.fsampling = 1/(temp_arr_x[1]-temp_arr_x[0])
 
     self.browsed_signal = SampledSignal(self.fsampling, temp_arr_y)
+
+
+def export_summed_signal(self):
+    '''Saves the summed signal as csv file'''
+    FolderPath = QFileDialog.getSaveFileName(
+            None, str('Save the summed signal'), None, str("CSV FIles(*.csv)"))
+    CSVfile = pyqtgraph.exporters.CSVExporter(self.summedSignal.plotItem)
+    CSVfile.export(str(FolderPath[0]))        

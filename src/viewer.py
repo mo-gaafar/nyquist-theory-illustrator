@@ -8,7 +8,7 @@ from classes import *
 import interface
 from PyQt5 import QtWidgets, QtCore
 import pyqtgraph as pg
-
+import openfile
 
 def control_viewer(self):
     ''' Control the transition from composer to viewer'''
@@ -28,8 +28,10 @@ def move_to_viewer(self, Input):
             QtWidgets.QMessageBox.warning(
                 self, 'NO SIGNAL ', 'You have to plot a signal first')
         else:
+          #save the summed signal as csv file
+            openfile.export_summed_signal(self)
             self.viewer_original_signal = Signal(
-                self.summed_signal.yAxis, self.summed_signal.xAxis, self.summed_signal.max_analog_frequency)
+                self.summed_signal.yAxis, self.summed_signal.xAxis, self.summed_signal.max_analog_frequency)            
             self.WindowTabs.setCurrentIndex(1)
     elif Input == "browse":
 
