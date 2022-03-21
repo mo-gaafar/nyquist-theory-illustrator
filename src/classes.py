@@ -106,8 +106,7 @@ class Signal():
                 fft_clean_frequencies_array.append(fft_frequencies[index])
 
         # get the last element and equate with max_frequency
-        # divided by 2 gad3ana men 3andy
-        self.max_analog_frequency = max(fft_clean_frequencies_array)/2
+        self.max_analog_frequency = max(fft_clean_frequencies_array)
 
         printDebug("Max frequency fft: " + str(self.max_analog_frequency))
         return self.max_analog_frequency
