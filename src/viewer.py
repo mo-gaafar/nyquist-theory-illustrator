@@ -35,9 +35,12 @@ def move_to_viewer(self, Input):
                 self.summed_signal.yAxis, self.summed_signal.xAxis, self.summed_signal.max_analog_frequency)
             self.WindowTabs.setCurrentIndex(1)
     elif Input == "browse":
+        
         self.viewer_original_signal = Signal(
             self.browsed_signal.magnitude_array, self.browsed_signal.time_array, self.browsed_signal.max_analog_frequency)
         self.WindowTabs.setCurrentIndex(1)
+        self.viewer_original_signal.get_max_frequency()#updates max frequency using fft
+
     self.samplingSlider.setMaximum(
         3*(self.viewer_original_signal.max_analog_frequency))
 

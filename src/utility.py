@@ -1,4 +1,5 @@
-from classes import DEBUG_MODE
+
+DEBUG_MODE = True
 
 
 def printDebug(Value):  # Enabled when global debug mode is on

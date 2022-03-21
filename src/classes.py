@@ -1,8 +1,9 @@
 from scipy import fft
 import numpy as np
 
+from utility import printDebug
+
 # GLOBAL CONSTANTS
-DEBUG_MODE = True
 MAX_SAMPLES = 3000
 
 
@@ -79,12 +80,6 @@ class SampledSignal():
         for index in range(self.total_samples):
             self.time_array.append(index/self.sampling_frequency)
 
-    # def get_max_frequency(self):
-    #     #array = np.abs(fft.rfft(self.magnitude_array))
-    #     #frequency = max(array)
-
-    #     return frequency
-
 
 class Signal():
     '''An object containing the generic signal'''
@@ -93,6 +88,29 @@ class Signal():
         self.magnitude = magnitude
         self.time = time
         self.max_analog_frequency = max_analog_frequency
+
+    def get_max_frequency(self):
+
+        sample_period = self.time[1] - self.time[0]
+        n_samples = len(self.time)
+
+        # gets array of fft magnitudes
+        fft_magnitudes = np.abs(fft.fft(self.magnitude))
+        # gets array of frequencies
+        fft_frequencies = fft.fftfreq(n_samples, sample_period)
+        # create new "clean array" of frequencies
+        fft_clean_frequencies_array = []
+        for index in range(len(fft_frequencies)):
+            # checks if signigifcant frequency is present
+            if fft_magnitudes[index] > 0.0001:
+                fft_clean_frequencies_array.append(fft_frequencies[index])
+
+        # get the last element and equate with max_frequency
+        # divided by 2 gad3ana men 3andy
+        self.max_analog_frequency = max(fft_clean_frequencies_array)/2
+
+        printDebug("Max frequency fft: " + str(self.max_analog_frequency))
+        return self.max_analog_frequency
 
 
 class PlotterWindow():
