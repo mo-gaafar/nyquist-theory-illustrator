@@ -102,7 +102,7 @@ class Signal():
         fft_clean_frequencies_array = []
         for index in range(len(fft_frequencies)):
             # checks if signigifcant frequency is present
-            if fft_magnitudes[index] > 1:
+            if fft_magnitudes[index] > 0.001:
                 fft_clean_frequencies_array.append(fft_frequencies[index])
 
         # get the last element and equate with max_frequency
