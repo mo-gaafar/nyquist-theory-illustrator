@@ -40,6 +40,8 @@ def move_to_viewer(self, Input):
     self.samplingSlider.setMaximum(
         3*(self.viewer_original_signal.max_analog_frequency))
 
+    self.fmaxLCD.display(self.viewer_original_signal.max_analog_frequency)
+
     # initialize plots
     self.plotter_window_dict["Primary"].plot_reference.setData(
         self.viewer_original_signal.time, self.viewer_original_signal.magnitude)
@@ -152,6 +154,8 @@ def delete_primary_secondary(self):
         self.interpolated_signal = []
         self.resampled_time = []
         self.resampled_magnitude = []
+        self.fmaxLCD.display(0)
+
 
     # plots to be reinitialized
         dict_keys = ["Primary", "Primary2", "Primary3", "Secondary"]

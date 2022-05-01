@@ -33,7 +33,7 @@ background-color: rgb(20, 29, 38);</string>
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
@@ -641,25 +641,22 @@ color: rgb(255, 255, 255);</string>
            <item row="1" column="0">
             <layout class="QHBoxLayout" name="horizontalLayout_17">
              <item>
-              <widget class="QPushButton" name="splitButton">
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(35, 52, 70);</string>
-               </property>
+              <widget class="QLabel" name="label_11">
                <property name="text">
-                <string/>
+                <string>Max. Frequency</string>
                </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>icons/Data-Split-258.png</normaloff>icons/Data-Split-258.png</iconset>
-               </property>
-               <property name="iconSize">
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="fmaxLCD">
+               <property name="maximumSize">
                 <size>
-                 <width>40</width>
-                 <height>40</height>
+                 <width>16777215</width>
+                 <height>30</height>
                 </size>
                </property>
-               <property name="flat">
-                <bool>true</bool>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(19, 28, 38);</string>
                </property>
               </widget>
              </item>
@@ -752,24 +749,47 @@ color: rgb(255, 255, 255);</string>
                  </property>
                 </spacer>
                </item>
+               <item>
+                <widget class="QPushButton" name="clearViewerButton">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(35, 52, 70);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>icons/Data-Erase-256.png</normaloff>icons/Data-Erase-256.png</iconset>
+                 </property>
+                 <property name="flat">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="splitButton">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(35, 52, 70);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>icons/Data-Split-258.png</normaloff>icons/Data-Split-258.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="flat">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
               </layout>
-             </item>
-             <item>
-              <widget class="QPushButton" name="clearViewerButton">
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(35, 52, 70);</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>icons/Data-Erase-256.png</normaloff>icons/Data-Erase-256.png</iconset>
-               </property>
-               <property name="flat">
-                <bool>true</bool>
-               </property>
-              </widget>
              </item>
             </layout>
            </item>
