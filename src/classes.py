@@ -19,7 +19,7 @@ class Sinusoid():
         self._is_added = _is_added
         self.xAxis = np.linspace(0, np.pi * 2, MAX_SAMPLES)
         self.yAxis = self.magnitude * \
-            np.sin((self.xAxis * self.frequency) + self.phaseshift)
+            np.sin((self.xAxis * self.frequency * 2*np.pi) + self.phaseshift)
 
         # self.np_object = self.generate_np_object()
     def __add__(self, sinusoid2):
@@ -56,13 +56,13 @@ class SummedSinusoid():
             self.max_analog_frequency = self._get_max_frequency_hz()
 
     def _get_max_frequency_hz(self):
-        ''' written because I dont know how to get max of an array of object attributes '''
+        ''' private function to return maximum frequency of small sinusoidal components'''
         maxfrequency = -999
         for item in self.sinusoid_array:
             if item.frequency > maxfrequency:
                 maxfrequency = item.frequency
 
-        return maxfrequency/(2*np.pi)
+        return maxfrequency
 
 
 class SampledSignal():
